@@ -3,7 +3,6 @@ package banks.classes.client;
 import banks.classes.account.AccountTemplate;
 import banks.classes.observer.IObserver;
 import banks.classes.observer.notification.INotification;
-import banks.classes.transaction.AbstractTransaction;
 import banks.tools.BankException;
 
 import java.util.ArrayList;
@@ -11,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Client implements IObserver {
-    private ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
-    private ArrayList<INotification> _notifications = new ArrayList<INotification>();
+    private final ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
+    private final ArrayList<INotification> _notifications = new ArrayList<INotification>();
     private String Name;
     private String Surname;
     private String Address = null;
@@ -20,39 +19,39 @@ public class Client implements IObserver {
     private boolean Verification;
     private int Id;
 
-    public List<AccountTemplate> GetAccounts() {
+    public List<AccountTemplate> getAccounts() {
         return Collections.unmodifiableList(_accounts);
     }
 
-    public List<INotification> GetNotifications() {
+    public List<INotification> getNotifications() {
         return Collections.unmodifiableList(_notifications);
     }
 
-    public void AddAccount(AccountTemplate newAccount) {
+    public void addAccount(AccountTemplate newAccount) {
         _accounts.add(newAccount);
     }
 
-    public void SetAddress(String address) {
+    public void setAddress(String address) {
         Address = address;
-        VerificationCheck();
+        verificationCheck();
     }
 
-    public void SetPassport(int passportNumber) throws BankException {
+    public void setPassport(int passportNumber) throws BankException {
         if (getPassportNumber() != 0)
             throw new BankException("Passport number already added");
         PassportNumber = passportNumber;
-        VerificationCheck();
+        verificationCheck();
     }
 
-    public void Update(INotification notification) {
+    public void update(INotification notification) {
         _notifications.add(notification);
     }
 
-    private void VerificationCheck() {
+    private void verificationCheck() {
         setVerification(getAddress() != null && getPassportNumber() != 0);
         if (isVerification()) {
             for (AccountTemplate account : _accounts) {
-                account.СonfirmVerification();
+                account.сonfirmVerification();
             }
         }
     }

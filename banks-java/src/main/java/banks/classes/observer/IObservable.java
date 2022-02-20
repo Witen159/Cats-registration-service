@@ -3,9 +3,9 @@ package banks.classes.observer;
 import banks.classes.observer.notification.INotification;
 
 public interface IObservable {
-    void AddObserver(IObserver observer);
+    void addObserver(IObserver observer);
 
-    void RemoveObserver(IObserver observer);
+    void removeObserver(IObserver observer);
 
-    void NotifyObservers(INotification notification);
+    void notifyObservers(INotification notification);
 }

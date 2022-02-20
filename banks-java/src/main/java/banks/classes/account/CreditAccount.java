@@ -6,36 +6,35 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class CreditAccount extends AccountTemplate {
+    private double Commission;
+    private int CreditNegativeLimit;
+
     public CreditAccount(double startMoney, LocalDateTime currentTime, double commission, int creditNegativeLimit, boolean verification) {
         super(startMoney, currentTime, verification);
         setCommission(commission);
         setCreditNegativeLimit(creditNegativeLimit);
     }
 
-    private double Commission; // getter setter
-
-    private int CreditNegativeLimit; // getter setter
-
     @Override
-    public void ReduceMoney(double amountOfMoney) throws BankException {
-        IsWillGoOverCreditLimit(amountOfMoney);
-        super.ReduceMoney(amountOfMoney);
+    public void reduceMoney(double amountOfMoney) throws BankException {
+        isWillGoOverCreditLimit(amountOfMoney);
+        super.reduceMoney(amountOfMoney);
     }
 
     @Override
-    public void PaymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         long differenceInDays = Duration.between(CurrentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {
             if (_money < 0) {
-                IsWillGoOverCreditLimit(getCommission());
-                ReduceMoney(getCommission());
+                isWillGoOverCreditLimit(getCommission());
+                reduceMoney(getCommission());
             }
 
             CurrentTime = getCurrentTime().plusDays(1);
         }
     }
 
-    private void IsWillGoOverCreditLimit(double amountOfMoney) throws BankException {
+    private void isWillGoOverCreditLimit(double amountOfMoney) throws BankException {
         if (_money - amountOfMoney < -getCreditNegativeLimit())
             throw new BankException("The balance fell below the credit limit");
     }

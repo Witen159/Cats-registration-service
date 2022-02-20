@@ -2,7 +2,6 @@ package banks.classes;
 
 import banks.classes.bank.Bank;
 import banks.classes.bank.PercentAmount;
-import banks.classes.client.Client;
 import banks.classes.transaction.AbstractTransaction;
 import banks.classes.transaction.CancelTransaction;
 import banks.tools.BankException;
@@ -15,55 +14,54 @@ import java.util.List;
 
 public class CentralBank {
     private static CentralBank _instance;
-    private ArrayList<Bank> _banks = new ArrayList<>();
+    private final ArrayList<Bank> _banks = new ArrayList<>();
+    private LocalDateTime CurrentTime;
 
     private CentralBank(LocalDateTime currentTime) {
         CurrentTime = currentTime;
     }
 
-    private LocalDateTime CurrentTime;
-
-    public static CentralBank GetInstance(LocalDateTime currentTime) {
+    public static CentralBank getInstance(LocalDateTime currentTime) {
         if (_instance == null)
             _instance = new CentralBank(currentTime);
         return _instance;
     }
 
-    public Bank RegisterNewBank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission) throws BankException {
+    public Bank registerNewBank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission) throws BankException {
         var newBank = new Bank(name, operationLimit, creditNegativeLimit, depositInterestOnTheBalance, debitInterestOnTheBalance, commission, CurrentTime);
         _banks.add(newBank);
         return newBank;
     }
 
-    public LocalDateTime GetCurrentTime() {
+    public LocalDateTime getCurrentTime() {
         return _instance.CurrentTime;
     }
 
-    public void NewDate(LocalDateTime newDate) throws BankException {
+    public void newDate(LocalDateTime newDate) throws BankException {
         if (Duration.between(CurrentTime, newDate).toDays() < 1)
             throw new BankException("New date should be at least next day");
         _instance.CurrentTime = newDate;
-        PaymentOperation();
+        paymentOperation();
     }
 
-    public Bank GetBank(int bankId) {
+    public Bank getBank(int bankId) {
         for (Bank bank : _banks)
             if (bank.getId() == bankId)
                 return bank;
         return null;
     }
 
-    public AbstractTransaction CancelOperation(AbstractTransaction transaction) throws BankException {
+    public AbstractTransaction cancelOperation(AbstractTransaction transaction) throws BankException {
         return new CancelTransaction(transaction);
     }
 
-    private void PaymentOperation() throws BankException {
+    private void paymentOperation() throws BankException {
         for (Bank bank : _banks) {
-            bank.PaymentOperation(CurrentTime);
+            bank.paymentOperation(CurrentTime);
         }
     }
 
-    public List<Bank> GetBanks() {
+    public List<Bank> getBanks() {
         return Collections.unmodifiableList(_banks);
     }
 }

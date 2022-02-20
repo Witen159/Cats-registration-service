@@ -16,10 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Tests {
     private CentralBank _centralBank;
@@ -31,21 +29,21 @@ public class Tests {
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void Setup()
+    public void setup()
     {
         _startTime = LocalDateTime.of(2022, 1, 1, 1, 1);
-        _centralBank = CentralBank.GetInstance(_startTime);
+        _centralBank = CentralBank.getInstance(_startTime);
         _clientDirector = new ClientDirector();
         _clientBuilder = new ClientBuilder();
-        _clientDirector.SetBuilder(_clientBuilder);
+        _clientDirector.setBuilder(_clientBuilder);
     }
 
     @Test
-    public void OperationLimitAndTransactionCancelTest() throws BankException {
-        _clientDirector.BuildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client ivan = _clientBuilder.GetClient();
-        _clientDirector.BuildClientWithAddress("Denis", "Denisov", "alaska");
-        Client denis = _clientBuilder.GetClient();
+    public void operationLimitAndTransactionCancelTest() throws BankException {
+        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client ivan = _clientBuilder.getClient();
+        _clientDirector.buildClientWithAddress("Denis", "Denisov", "alaska");
+        Client denis = _clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -57,33 +55,31 @@ public class Tests {
 
         var percentAmount = new PercentAmount(a, b);
 
-        Bank bank = _centralBank.RegisterNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
-        bank.RegisterNewClient(ivan);
-        bank.RegisterNewClient(denis);
+        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        bank.registerNewClient(ivan);
+        bank.registerNewClient(denis);
 
-        AccountTemplate ivanDebit = bank.AddDebitAccount(ivan, 75000);
-        AccountTemplate denisDebit = bank.AddDebitAccount(denis, 150000);
+        AccountTemplate ivanDebit = bank.addDebitAccount(ivan, 75000);
+        AccountTemplate denisDebit = bank.addDebitAccount(denis, 150000);
 
-        AbstractTransaction transaction = bank.Transfer(ivanDebit, denisDebit, 30000);
-        Assert.assertEquals(denisDebit.GetMoney(), 180000, 0);
-        Assert.assertEquals(ivanDebit.GetMoney(), 45000, 0);
+        AbstractTransaction transaction = bank.transfer(ivanDebit, denisDebit, 30000);
+        Assert.assertEquals(denisDebit.getMoney(), 180000, 0);
+        Assert.assertEquals(ivanDebit.getMoney(), 45000, 0);
 
-        _centralBank.CancelOperation(transaction);
-        Assert.assertEquals(denisDebit.GetMoney(), 150000, 0);
-        Assert.assertEquals(ivanDebit.GetMoney(), 75000, 0);
+        _centralBank.cancelOperation(transaction);
+        Assert.assertEquals(denisDebit.getMoney(), 150000, 0);
+        Assert.assertEquals(ivanDebit.getMoney(), 75000, 0);
 
         thrown.expect(BankException.class);
-        bank.Withdrawal(denisDebit, 30000);
+        bank.withdrawal(denisDebit, 30000);
         thrown.expect(BankException.class);
-        bank.Transfer(denisDebit, ivanDebit, 30000);
-        // Assert.Throws<BankException>(() => bank.Withdrawal(denisDebit, 30000));
-        // Assert.Throws<BankException>(() => bank.Transfer(denisDebit, ivanDebit, 30000));
+        bank.transfer(denisDebit, ivanDebit, 30000);
     }
 
     @Test
-    public void RunTimeTest() throws BankException {
-        _clientDirector.BuildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client client = _clientBuilder.GetClient();
+    public void runTimeTest() throws BankException {
+        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client client = _clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -94,46 +90,45 @@ public class Tests {
         b.add(3.0);
 
         var percentAmount = new PercentAmount(a, b);
-        Bank bank = _centralBank.RegisterNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
-        bank.RegisterNewClient(client);
+        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        bank.registerNewClient(client);
 
-        AccountTemplate debit = bank.AddDebitAccount(client, 40000);
-        AccountTemplate deposit = bank.AddDepositAccount(client, 40000, _centralBank.GetCurrentTime().plusDays(40));
-        AccountTemplate credit = bank.AddCreditAccount(client, 40000);
+        AccountTemplate debit = bank.addDebitAccount(client, 40000);
+        AccountTemplate deposit = bank.addDepositAccount(client, 40000, _centralBank.getCurrentTime().plusDays(40));
+        AccountTemplate credit = bank.addCreditAccount(client, 40000);
 
         // В конце месяца на дебетовый и депозитный упали проценты
-        _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(31));
-        Assert.assertEquals(debit.GetMoney(), 40101.92, 0);
-        Assert.assertEquals(deposit.GetMoney(), 40033.97, 0);
+        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(31));
+        Assert.assertEquals(debit.getMoney(), 40101.92, 0);
+        Assert.assertEquals(deposit.getMoney(), 40033.97, 0);
 
         // Депозитный счет закрылся, оставшийся остаток на процент зачислился на счет. Дебетовый не изменился
-        _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(10));
-        Assert.assertEquals(debit.GetMoney(), 40101.92, 0);
-        Assert.assertEquals(deposit.GetMoney(), 40044.94, 0);
+        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(10));
+        Assert.assertEquals(debit.getMoney(), 40101.92, 0);
+        Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
 
         // Прошел еще месяц. Депозитный счет не изменился (закрыт), дебетовый обновился
-        _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(20));
-        Assert.assertEquals(debit.GetMoney(), 40194.21, 0);
-        Assert.assertEquals(deposit.GetMoney(), 40044.94, 0);
+        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(20));
+        Assert.assertEquals(debit.getMoney(), 40194.21, 0);
+        Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
 
         // Кредитный счет в плюсе, комиссии не было
-        Assert.assertEquals(credit.GetMoney(), 40000, 0);
+        Assert.assertEquals(credit.getMoney(), 40000, 0);
 
         // Кредитный счет ушел в минус, снималась комиссия
-        bank.Withdrawal(credit, 41000);
-        _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(5));
-        Assert.assertEquals(credit.GetMoney(), -6000, 0);
+        bank.withdrawal(credit, 41000);
+        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(5));
+        Assert.assertEquals(credit.getMoney(), -6000, 0);
 
         // Баланс на кредитном счете упал ниже кредитного лимита
         thrown.expect(BankException.class);
-        _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(5));
-        //Assert.ер<BankException>(() => _centralBank.NewDate(_centralBank.GetCurrentTime().plusDays(5)));
+        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(5));
     }
 
     @Test
-    public void NotificationTest() throws BankException {
-        _clientDirector.BuildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client client = _clientBuilder.GetClient();
+    public void notificationTest() throws BankException {
+        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client client = _clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -144,16 +139,16 @@ public class Tests {
         b.add(3.0);
 
         var percentAmount = new PercentAmount(a, b);
-        Bank bank = _centralBank.RegisterNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
-        bank.RegisterNewClient(client);
+        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        bank.registerNewClient(client);
 
-        bank.AddObserver(client);
-        bank.getBankParametersChanger().ChangeCommission(1500);
-        bank.getBankParametersChanger().ChangeOperationLimit(11000);
-        bank.getBankParametersChanger().ChangeCreditNegativeLimit(12000);
+        bank.addObserver(client);
+        bank.getBankParametersChanger().changeCommission(1500);
+        bank.getBankParametersChanger().changeOperationLimit(11000);
+        bank.getBankParametersChanger().changeCreditNegativeLimit(12000);
 
-        Assert.assertTrue(client.GetNotifications().get(0) instanceof CommissionNotification);
-        Assert.assertTrue(client.GetNotifications().get(1) instanceof OperationLimitNotification);
-        Assert.assertTrue(client.GetNotifications().get(2) instanceof CreditLimitNotification);
+        Assert.assertTrue(client.getNotifications().get(0) instanceof CommissionNotification);
+        Assert.assertTrue(client.getNotifications().get(1) instanceof OperationLimitNotification);
+        Assert.assertTrue(client.getNotifications().get(2) instanceof CreditLimitNotification);
     }
 }

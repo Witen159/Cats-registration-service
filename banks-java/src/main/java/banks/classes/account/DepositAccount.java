@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 public class DepositAccount extends AccountTemplate {
     private double _deductions = 0;
+    private double InterestOnTheBalance;
+    private LocalDateTime DepositCloseTime;
+    private boolean AccountIsOpen;
 
     public DepositAccount(double startMoney, LocalDateTime currentTime, double interestOnTheBalance, LocalDateTime depositCloseTime, boolean verification) throws BankException {
         super(startMoney, currentTime, verification);
@@ -17,36 +20,30 @@ public class DepositAccount extends AccountTemplate {
         AccountIsOpen = true;
     }
 
-    private double InterestOnTheBalance; //getter setter
-
-    private LocalDateTime DepositCloseTime; // getter setter
-
-    private boolean AccountIsOpen; //getter
-
     @Override
-    public void ReduceMoney(double amountOfMoney) throws BankException {
+    public void reduceMoney(double amountOfMoney) throws BankException {
         if (isAccountOpen())
             throw new BankException("You cannot withdraw money from the account until it is close");
         if (amountOfMoney > _money)
             throw new BankException("Deposit account cannot go into negative territory");
-        super.ReduceMoney(amountOfMoney);
+        super.reduceMoney(amountOfMoney);
     }
 
     @Override
-    public void PaymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         var daysControlSystem = new DaysControlSystem();
         long differenceInDays = Duration.between(CurrentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {
             if (isAccountOpen()) {
-                _deductions += _money * ((getInterestOnTheBalance() * 0.01) / daysControlSystem.DaysPerYear(getCurrentTime()));
+                _deductions += _money * ((getInterestOnTheBalance() * 0.01) / daysControlSystem.daysPerYear(getCurrentTime()));
 
-                if (daysControlSystem.IsItLastDayOfMonth(getCurrentTime())) {
-                    IncreaseMoney(_deductions);
+                if (daysControlSystem.isItLastDayOfMonth(getCurrentTime())) {
+                    increaseMoney(_deductions);
                     _deductions = 0;
                 }
 
                 if (CurrentTime.isEqual(DepositCloseTime)) {
-                    IncreaseMoney(_deductions);
+                    increaseMoney(_deductions);
                     _deductions = 0;
                     AccountIsOpen = false;
                 }

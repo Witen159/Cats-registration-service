@@ -8,17 +8,16 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class RegisterInBank implements IClientOption{
-    public void Option(Client currentClient) throws IOException {
+public class RegisterInBank implements IClientOption {
+    public void option(Client currentClient) throws IOException {
         Scanner console = new Scanner(System.in);
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter id of bank you want to register");
         int bankId = console.nextInt();
         console.nextLine();
-        for (Bank bank : centralBank.GetBanks())
-        {
+        for (Bank bank : centralBank.getBanks()) {
             if (bank.getId() == bankId)
-                bank.RegisterNewClient(currentClient);
+                bank.registerNewClient(currentClient);
             break;
         }
     }

@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class AccountOperations implements IClientOption {
-    public void Option(Client currentClient) throws IOException, BankException {
+    public void option(Client currentClient) throws IOException, BankException {
         Scanner console = new Scanner(System.in);
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter id of your account");
         int accountOperationId = console.nextInt();
         console.nextLine();
@@ -23,13 +23,13 @@ public class AccountOperations implements IClientOption {
 
         AccountTemplate operationAccount = null;
         Bank operationBank = null;
-        for (AccountTemplate account : currentClient.GetAccounts())
+        for (AccountTemplate account : currentClient.getAccounts())
             if (account.getId() == accountOperationId) {
                 operationAccount = account;
                 break;
             }
-        for (Bank bank : centralBank.GetBanks())
-            if (bank.GetAccounts().contains(operationAccount)) {
+        for (Bank bank : centralBank.getBanks())
+            if (bank.getAccounts().contains(operationAccount)) {
                 operationBank = bank;
                 break;
             }
@@ -41,29 +41,27 @@ public class AccountOperations implements IClientOption {
         System.out.println("Cancel");
         int operation = console.nextInt();
         console.nextLine();
-        switch (operation)
-        {
+        switch (operation) {
             case 1:
-                operationBank.Refill(operationAccount, transactionAmount);
+                operationBank.refill(operationAccount, transactionAmount);
                 break;
             case 2:
-                operationBank.Withdrawal(operationAccount, transactionAmount);
+                operationBank.withdrawal(operationAccount, transactionAmount);
                 break;
             case 3:
                 System.out.println("Enter id of account you want to transfer to");
                 int newAccountId = console.nextInt();
                 console.nextLine();
-                operationBank.Transfer(operationAccount, FindAccountFromId(newAccountId), transactionAmount);
+                operationBank.transfer(operationAccount, findAccountFromId(newAccountId), transactionAmount);
                 break;
             case 4:
         }
     }
 
-    private AccountTemplate FindAccountFromId(int accountId)
-    {
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
-        for (Bank bank : centralBank.GetBanks())
-            for (AccountTemplate account : bank.GetAccounts())
+    private AccountTemplate findAccountFromId(int accountId) {
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
+        for (Bank bank : centralBank.getBanks())
+            for (AccountTemplate account : bank.getAccounts())
                 if (account.getId() == accountId)
                     return account;
         return null;

@@ -11,17 +11,14 @@ public class PercentAmount {
     private ArrayList<Double> _percents;
 
     public PercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
-        Setup(moneyBorders, percents);
+        setup(moneyBorders, percents);
     }
 
-    // public IReadOnlyList<Integer> MoneyBorders =>_moneyBorders;
-    // public IReadOnlyList<Double> Percents =>_percents;
-
-    public void ChangePercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
-        Setup(moneyBorders, percents);
+    public void changePercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
+        setup(moneyBorders, percents);
     }
 
-    public double GetCurrentPercent(double money) {
+    public double getCurrentPercent(double money) {
         for (int i = 0; i < _moneyBorders.size(); i++) {
             if (money < _moneyBorders.get(i))
                 return _percents.get(i);
@@ -30,18 +27,18 @@ public class PercentAmount {
         return _percents.get(_percents.size() - 1);
     }
 
-    private void Setup(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
+    private void setup(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
         if (moneyBorders.size() + 1 != percents.size())
             throw new BankException("Incorrect money borders and percents match");
         _moneyBorders = moneyBorders;
         _percents = percents;
     }
 
-    public List<Double> GetPercents() {
+    public List<Double> getPercents() {
         return Collections.unmodifiableList(_percents);
     }
 
-    public List<Integer> GetMoneyBorders() {
+    public List<Integer> getMoneyBorders() {
         return Collections.unmodifiableList(_moneyBorders);
     }
 }

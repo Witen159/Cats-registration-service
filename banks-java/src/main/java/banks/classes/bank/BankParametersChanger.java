@@ -10,62 +10,62 @@ import banks.classes.observer.notification.PercentNotification;
 import banks.tools.BankException;
 
 public class BankParametersChanger {
-    final private int MinimumOperationLimit = 10000;
-    final private int MinimumCreditLimit = 10000;
-    final private int MinimumCommission = 1000;
-    private Bank _bank;
+    final private int MINIMUM_OPERATION_LIMIT = 10000;
+    final private int MINIMUM_CREDIT_LIMIT = 10000;
+    final private int MINIMUM_COMMISSION = 1000;
+    private final Bank _bank;
 
     public BankParametersChanger(Bank bank) {
         _bank = bank;
     }
 
-    public void ChangeOperationLimit(int value) throws BankException {
-        if (value < MinimumOperationLimit)
+    public void changeOperationLimit(int value) throws BankException {
+        if (value < MINIMUM_OPERATION_LIMIT)
             throw new BankException("Operation limit should be at least 10000");
         _bank.setOperationLimit(value);
 
-        _bank.NotifyObservers(new OperationLimitNotification());
+        _bank.notifyObservers(new OperationLimitNotification());
     }
 
-    public void ChangeCreditNegativeLimit(int value) throws BankException {
-        if (value < MinimumCreditLimit)
+    public void changeCreditNegativeLimit(int value) throws BankException {
+        if (value < MINIMUM_CREDIT_LIMIT)
             throw new BankException("Credit Negative Limit should be at least 10000");
         _bank.setCreditNegativeLimit(value);
-        for (AccountTemplate account : _bank.GetAccounts()) {
+        for (AccountTemplate account : _bank.getAccounts()) {
             if (account instanceof CreditAccount creditAccount)
                 creditAccount.setCreditNegativeLimit(value);
         }
 
-        _bank.NotifyObservers(new CreditLimitNotification());
+        _bank.notifyObservers(new CreditLimitNotification());
     }
 
-    public void ChangeCommission(double value) throws BankException {
-        if (value < MinimumCommission)
+    public void changeCommission(double value) throws BankException {
+        if (value < MINIMUM_COMMISSION)
             throw new BankException("Commission should be at least 10000");
         _bank.setCommission(value);
-        for (AccountTemplate account : _bank.GetAccounts()) {
+        for (AccountTemplate account : _bank.getAccounts()) {
             if (account instanceof CreditAccount creditAccount)
                 creditAccount.setCommission(value);
         }
 
-        _bank.NotifyObservers(new CommissionNotification());
+        _bank.notifyObservers(new CommissionNotification());
     }
 
-    public void ChangeDebitInterestOnTheBalance(double value) throws BankException {
+    public void changeDebitInterestOnTheBalance(double value) throws BankException {
         if (value <= 0 || value >= 100) {
             throw new BankException("Percents must be greater than 0 and less than 100");
         }
 
         _bank.setDebitInterestOnTheBalance(value);
-        for (AccountTemplate account : _bank.GetAccounts()) {
+        for (AccountTemplate account : _bank.getAccounts()) {
             if (account instanceof DebitAccount debitAccount)
                 debitAccount.setInterestOnTheBalance(value);
         }
 
-        _bank.NotifyObservers(new PercentNotification());
+        _bank.notifyObservers(new PercentNotification());
     }
 
-    public void ChangeDepositInterestOnTheBalance(PercentAmount newPercentAmount) {
+    public void changeDepositInterestOnTheBalance(PercentAmount newPercentAmount) {
         _bank.setDepositInterestOnTheBalance(newPercentAmount);
     }
 }

@@ -11,19 +11,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientManager {
-    private ArrayList<Client> _clientsList = new ArrayList<Client>();
-    private Client _currentClient = null;
-    private ClientDirector _clientDirector = new ClientDirector();
-    private ClientBuilder _clientBuilder = new ClientBuilder();
+    private final ArrayList<Client> _clientsList = new ArrayList<Client>();
+    private final ClientDirector _clientDirector = new ClientDirector();
+    private final ClientBuilder _clientBuilder = new ClientBuilder();
+    private final Scanner console = new Scanner(System.in);
     private IClientOption _clientOption = null;
-    private Scanner console = new Scanner(System.in);
+    private Client _currentClient = null;
 
-    public ClientManager()
-    {
-        _clientDirector.SetBuilder(_clientBuilder);
+    public ClientManager() {
+        _clientDirector.setBuilder(_clientBuilder);
     }
 
-    public void LogIn() throws IOException, BankException {
+    public void logIn() throws IOException, BankException {
         System.out.println("1. Log in");
         System.out.println("2. Register in system");
         System.out.println("3. Return to start menu");
@@ -31,47 +30,43 @@ public class ClientManager {
         console.nextLine();
         System.out.println();
 
-        switch (choice)
-        {
+        switch (choice) {
             case 1:
                 System.out.println("Type your full name:");
                 String fullName = console.nextLine();
                 System.out.println();
                 _currentClient = null;
 
-                for (Client client : _clientsList)
-                {
-                    if ((client.getName() + " " + client.getSurname()).equals(fullName))
-                    {
+                for (Client client : _clientsList) {
+                    if ((client.getName() + " " + client.getSurname()).equals(fullName)) {
                         _currentClient = client;
                         break;
                     }
                 }
 
-                if (_currentClient == null)
-                {
+                if (_currentClient == null) {
                     System.out.println("Such a user is not registered");
                     System.out.println();
-                    LogIn();
+                    logIn();
                     return;
                 }
 
-                Manager();
+                manager();
                 return;
             case 2:
-                Registration();
+                registration();
 
-                Manager();
+                manager();
                 return;
             case 3:
                 return;
             default:
                 System.out.println("Wrong command");
-                LogIn();
+                logIn();
         }
     }
 
-    private void Manager() throws IOException, BankException {
+    private void manager() throws IOException, BankException {
         System.out.println("Menu:");
         System.out.println("1. Banks List");
         System.out.println("2. Register in bank");
@@ -86,8 +81,7 @@ public class ClientManager {
         console.nextLine();
         System.out.println();
 
-        switch (choice)
-        {
+        switch (choice) {
             case 1:
                 _clientOption = new BanksList();
                 break;
@@ -116,27 +110,25 @@ public class ClientManager {
                 return;
             default:
                 System.out.println("Wrong command");
-                Manager();
+                manager();
                 return;
         }
 
-        _clientOption.Option(_currentClient);
-        Manager();
+        _clientOption.option(_currentClient);
+        manager();
     }
 
-    private void Registration() throws IOException, BankException {
+    private void registration() throws IOException, BankException {
         System.out.println("To have verified profile you need to add your address and passport");
         System.out.println("Type your name:");
         String name = console.nextLine();
         System.out.println("Type your surname:");
         String surname = console.nextLine();
 
-        for (Client client : _clientsList)
-        {
-            if (name.equals(client.getName()) && surname.equals(client.getSurname()))
-            {
+        for (Client client : _clientsList) {
+            if (name.equals(client.getName()) && surname.equals(client.getSurname())) {
                 System.out.println("This user is already registered");
-                LogIn();
+                logIn();
                 return;
             }
         }
@@ -148,15 +140,15 @@ public class ClientManager {
         String passport = console.nextLine();
 
         if (address.isEmpty() && passport.isEmpty())
-            _clientDirector.BuildDefaultClient(name, surname);
+            _clientDirector.buildDefaultClient(name, surname);
         else if (address.isEmpty())
-            _clientDirector.BuildClientWithPassport(name, surname, Integer.parseInt(passport));
+            _clientDirector.buildClientWithPassport(name, surname, Integer.parseInt(passport));
         else if (passport.isEmpty())
-            _clientDirector.BuildClientWithAddress(name, surname, address);
+            _clientDirector.buildClientWithAddress(name, surname, address);
         else
-            _clientDirector.BuildFullClient(name, surname, Integer.parseInt(passport), address);
+            _clientDirector.buildFullClient(name, surname, Integer.parseInt(passport), address);
 
-        _currentClient = _clientBuilder.GetClient();
+        _currentClient = _clientBuilder.getClient();
         _clientsList.add(_currentClient);
     }
 }

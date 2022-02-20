@@ -8,10 +8,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class RewindTime implements IBankOption{
-    public void Option() throws IOException, BankException {
+public class RewindTime implements IBankOption {
+    public void option() throws IOException, BankException {
         Scanner console = new Scanner(System.in);
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter the date you want to wait until (year, month, day)");
         var newDate = LocalDateTime.of(
                 console.nextInt(),
@@ -20,9 +20,9 @@ public class RewindTime implements IBankOption{
                 1, 1);
         console.nextLine();
 
-        if (Duration.between(centralBank.GetCurrentTime(), newDate).toDays() < 1)
+        if (Duration.between(centralBank.getCurrentTime(), newDate).toDays() < 1)
             System.out.println("New date should be at least next day");
         else
-            centralBank.NewDate(newDate);
+            centralBank.newDate(newDate);
     }
 }

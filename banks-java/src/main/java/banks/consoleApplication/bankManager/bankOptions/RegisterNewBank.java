@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RegisterNewBank implements IBankOption{
-    public void Option() throws BankException {
+public class RegisterNewBank implements IBankOption {
+    public void option() throws BankException {
         Scanner console = new Scanner(System.in);
 
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter the parameters");
         System.out.println("Bank name:");
         String bankName = console.nextLine();
@@ -32,20 +32,18 @@ public class RegisterNewBank implements IBankOption{
         System.out.println("Percent for deposit accounts (count, Money borders (count - 1 times), percents (count times)):");
         int count = console.nextInt();
         var moneyBorders = new ArrayList<Integer>();
-        for (int i = 0; i < count - 1; i++)
-        {
+        for (int i = 0; i < count - 1; i++) {
             moneyBorders.add(console.nextInt());
         }
 
         var percents = new ArrayList<Double>();
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             percents.add(console.nextDouble());
         }
         console.nextLine();
 
         var percentAmount = new PercentAmount(moneyBorders, percents);
 
-        centralBank.RegisterNewBank(bankName, operationsLimit, creditLimit, percentAmount, debitInterest, commission);
+        centralBank.registerNewBank(bankName, operationsLimit, creditLimit, percentAmount, debitInterest, commission);
     }
 }

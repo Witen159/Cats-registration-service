@@ -10,18 +10,19 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class ConsoleApp {
-    private CentralBank _centralBank = CentralBank.GetInstance(LocalDateTime.now());
-    private ClientManager _clientManager = new ClientManager();
-    private CentralBankManager _centralBankManager = new CentralBankManager();
-    private Scanner console = new Scanner(System.in);
+    private final CentralBank _centralBank = CentralBank.getInstance(LocalDateTime.now());
+    private final ClientManager _clientManager = new ClientManager();
+    private final CentralBankManager _centralBankManager = new CentralBankManager();
+    private final Scanner console = new Scanner(System.in);
+
     public ConsoleApp() throws BankException, IOException {
         System.out.println("Please use command numbers is our application");
         System.out.println();
 
-        StartMenu();
+        startMenu();
     }
 
-    public void StartMenu() throws BankException, IOException {
+    public void startMenu() throws BankException, IOException {
         System.out.println("Choose who you are:");
         System.out.println("1. Bank manager");
         System.out.println("2. Client");
@@ -30,13 +31,12 @@ public class ConsoleApp {
         console.nextLine();
         System.out.println();
 
-        switch (choice)
-        {
+        switch (choice) {
             case 1:
-                _centralBankManager.BankManager();
+                _centralBankManager.bankManager();
                 break;
             case 2:
-                _clientManager.LogIn();
+                _clientManager.logIn();
                 break;
             case 3:
                 return;
@@ -45,6 +45,6 @@ public class ConsoleApp {
                 break;
         }
 
-        StartMenu();
+        startMenu();
     }
 }

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class WithdrawalTransaction extends AbstractTransaction {
     public WithdrawalTransaction(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney, LocalDateTime currentTime) throws BankException {
         super(sender, recipient, amountOfMoney, currentTime);
-        getSender().ReduceMoney(amountOfMoney);
-        getSender().AddTransaction(this);
+        getSender().reduceMoney(amountOfMoney);
+        getSender().addTransaction(this);
     }
 }

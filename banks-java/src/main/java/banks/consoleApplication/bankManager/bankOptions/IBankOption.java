@@ -5,5 +5,5 @@ import banks.tools.BankException;
 import java.io.IOException;
 
 public interface IBankOption {
-    void Option() throws BankException, IOException;
+    void option() throws BankException, IOException;
 }

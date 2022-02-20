@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class CentralBankManager {
+    private final Scanner console = new Scanner(System.in);
     private IBankOption _bankOption = null;
-    private Scanner console = new Scanner(System.in);
-    public void BankManager() throws BankException, IOException {
+
+    public void bankManager() throws BankException, IOException {
         System.out.println("Menu:");
         System.out.println("1. Register new bank");
         System.out.println("2. Banks list");
@@ -22,8 +23,7 @@ public class CentralBankManager {
         console.nextLine();
         System.out.println();
 
-        switch (choice)
-        {
+        switch (choice) {
             case 1:
                 _bankOption = new RegisterNewBank();
                 break;
@@ -37,11 +37,11 @@ public class CentralBankManager {
                 return;
             default:
                 System.out.println("Wrong command");
-                BankManager();
+                bankManager();
                 return;
         }
 
-        _bankOption.Option();
-        BankManager();
+        _bankOption.option();
+        bankManager();
     }
 }

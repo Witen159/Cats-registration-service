@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class RefillTransaction extends AbstractTransaction {
     public RefillTransaction(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney, LocalDateTime currentTime) throws BankException {
         super(sender, recipient, amountOfMoney, currentTime);
-        getRecipient().IncreaseMoney(amountOfMoney);
-        getRecipient().AddTransaction(this);
+        getRecipient().increaseMoney(amountOfMoney);
+        getRecipient().addTransaction(this);
     }
 }

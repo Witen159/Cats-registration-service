@@ -3,17 +3,19 @@ package banks.classes.client;
 import banks.tools.BankException;
 
 public interface IClientBuilder {
-    void Reset();
+    void reset();
 
-    void BuildId(int id);
+    void buildId(int id);
 
-    void BuildName(String name);
+    void buildName(String name);
 
-    void BuildSurname(String surname);
+    void buildSurname(String surname);
 
-    void BuildAddress(String address);
+    void buildAddress(String address);
 
-    void BuildPassport(int passportNumber) throws BankException;
+    void buildPassport(int passportNumber) throws BankException;
 
-    void BuildVerification();
+    void buildVerification();
+
+    Client getClient();
 }

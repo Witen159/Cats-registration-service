@@ -5,12 +5,10 @@ import banks.classes.bank.Bank;
 
 import java.time.LocalDateTime;
 
-public class BanksList implements IBankOption{
-    public void Option()
-    {
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
-        for (Bank bank : centralBank.GetBanks())
-        {
+public class BanksList implements IBankOption {
+    public void option() {
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
+        for (Bank bank : centralBank.getBanks()) {
             System.out.println(bank.getName() + " id: " + bank.getId());
         }
 

@@ -21,14 +21,13 @@ import java.util.List;
 
 public class Bank implements IObservable {
     private static int _currentId = 1;
-    private ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
-    private ArrayList<Client> _clients = new ArrayList<Client>();
-    private ArrayList<IObserver> _observers = new ArrayList<IObserver>();
+    private final ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
+    private final ArrayList<Client> _clients = new ArrayList<Client>();
+    private final ArrayList<IObserver> _observers = new ArrayList<IObserver>();
+    private final int Id;
+    private final String Name;
+    private final BankParametersChanger BankParametersChanger;
     private LocalDateTime _currentTime;
-    private int Id;
-
-    private String Name;
-    private BankParametersChanger BankParametersChanger;
     private double DebitInterestOnTheBalance;
     private double Commission;
     private int OperationLimit;
@@ -39,110 +38,107 @@ public class Bank implements IObservable {
         Name = name;
         Id = _currentId++;
         BankParametersChanger = new BankParametersChanger(this);
-        BankParametersChanger.ChangeOperationLimit(operationLimit);
-        BankParametersChanger.ChangeCreditNegativeLimit(creditNegativeLimit);
-        BankParametersChanger.ChangeDepositInterestOnTheBalance(depositInterestOnTheBalance);
-        BankParametersChanger.ChangeDebitInterestOnTheBalance(debitInterestOnTheBalance);
-        BankParametersChanger.ChangeCommission(commission);
+        BankParametersChanger.changeOperationLimit(operationLimit);
+        BankParametersChanger.changeCreditNegativeLimit(creditNegativeLimit);
+        BankParametersChanger.changeDepositInterestOnTheBalance(depositInterestOnTheBalance);
+        BankParametersChanger.changeDebitInterestOnTheBalance(debitInterestOnTheBalance);
+        BankParametersChanger.changeCommission(commission);
         _currentTime = currentTime;
     }
 
-    // public IReadOnlyList<AccountTemplate> Accounts =>_accounts;
-    // public IReadOnlyList<Client> Clients =>_clients;
-
-    public AccountTemplate AddDebitAccount(Client client, double startMoney) throws BankException {
-        ClientRegisterCheck(client);
+    public AccountTemplate addDebitAccount(Client client, double startMoney) throws BankException {
+        clientRegisterCheck(client);
         var debitAccount = new DebitAccount(startMoney, _currentTime, getDebitInterestOnTheBalance(), client.isVerification());
-        client.AddAccount(debitAccount);
+        client.addAccount(debitAccount);
         _accounts.add(debitAccount);
         return debitAccount;
     }
 
-    public AccountTemplate AddDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
-        ClientRegisterCheck(client);
-        var depositAccount = new DepositAccount(startMoney, _currentTime, getDepositInterestOnTheBalance().GetCurrentPercent(startMoney), depositCloseTime, client.isVerification());
-        client.AddAccount(depositAccount);
+    public AccountTemplate addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
+        clientRegisterCheck(client);
+        var depositAccount = new DepositAccount(startMoney, _currentTime, getDepositInterestOnTheBalance().getCurrentPercent(startMoney), depositCloseTime, client.isVerification());
+        client.addAccount(depositAccount);
         _accounts.add(depositAccount);
         return depositAccount;
     }
 
-    public AccountTemplate AddCreditAccount(Client client, double startMoney) throws BankException {
-        ClientRegisterCheck(client);
+    public AccountTemplate addCreditAccount(Client client, double startMoney) throws BankException {
+        clientRegisterCheck(client);
         var creditAccount = new CreditAccount(startMoney, _currentTime, getCommission(), getCreditNegativeLimit(), client.isVerification());
-        client.AddAccount(creditAccount);
+        client.addAccount(creditAccount);
         _accounts.add(creditAccount);
         return creditAccount;
     }
 
-    public AbstractTransaction Transfer(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney) throws BankException {
-        AccountCheck(sender);
-        OperationLimitCheck(sender, amountOfMoney);
+    public AbstractTransaction transfer(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney) throws BankException {
+        accountCheck(sender);
+        operationLimitCheck(sender, amountOfMoney);
         return new TransferTransaction(sender, recipient, amountOfMoney, _currentTime);
     }
 
-    public AbstractTransaction Refill(AccountTemplate account, double amountOfMoney) throws BankException {
-        AccountCheck(account);
+    public AbstractTransaction refill(AccountTemplate account, double amountOfMoney) throws BankException {
+        accountCheck(account);
         return new RefillTransaction(null, account, amountOfMoney, _currentTime);
     }
 
-    public AbstractTransaction Withdrawal(AccountTemplate account, double amountOfMoney) throws BankException {
-        AccountCheck(account);
-        OperationLimitCheck(account, amountOfMoney);
+    public AbstractTransaction withdrawal(AccountTemplate account, double amountOfMoney) throws BankException {
+        accountCheck(account);
+        operationLimitCheck(account, amountOfMoney);
         return new WithdrawalTransaction(account, null, amountOfMoney, _currentTime);
     }
 
-    public void RegisterNewClient(Client client) {
+    public void registerNewClient(Client client) {
         _clients.add(client);
     }
 
-    public AccountTemplate GetAccount(int accountId) {
+    public AccountTemplate getAccount(int accountId) {
         for (AccountTemplate account : _accounts)
             if (account.getId() == accountId)
                 return account;
         return null;
     }
 
-    public void PaymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         _currentTime = timeOfTheNewPayment;
         for (AccountTemplate account : _accounts) {
-            account.PaymentOperation(_currentTime);
+            account.paymentOperation(_currentTime);
         }
     }
 
-    public void AddObserver(IObserver observer) {
+    public void addObserver(IObserver observer) {
         _observers.add(observer);
     }
 
-    public void RemoveObserver(IObserver observer) {
+    public void removeObserver(IObserver observer) {
         _observers.remove(observer);
     }
 
-    public void NotifyObservers(INotification notification) {
+    public void notifyObservers(INotification notification) {
         for (IObserver observer : _observers) {
-            observer.Update(notification);
+            observer.update(notification);
         }
     }
 
-    private void OperationLimitCheck(AccountTemplate account, double amountOfMoney) throws BankException {
+    private void operationLimitCheck(AccountTemplate account, double amountOfMoney) throws BankException {
         if (!account.isVerification() && amountOfMoney > getOperationLimit())
             throw new BankException("Unconfirmed accounts are prohibited from operations above" + getOperationLimit());
     }
 
-    private void ClientRegisterCheck(Client client) throws BankException {
+    private void clientRegisterCheck(Client client) throws BankException {
         if (!_clients.contains(client))
             throw new BankException("Client should be registered in the bank");
     }
 
-    private void AccountCheck(AccountTemplate account) throws BankException {
+    private void accountCheck(AccountTemplate account) throws BankException {
         if (!_accounts.contains(account))
             throw new BankException("The account does not belong to this bank");
     }
 
-    public List<Client> GetClients() {
+    public List<Client> getClients() {
         return Collections.unmodifiableList(_clients);
     }
 
-    public List<AccountTemplate> GetAccounts() {
+    public List<AccountTemplate> getAccounts() {
         return Collections.unmodifiableList(_accounts);
     }
 

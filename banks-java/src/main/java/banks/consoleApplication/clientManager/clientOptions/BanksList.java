@@ -6,14 +6,12 @@ import banks.classes.client.Client;
 
 import java.time.LocalDateTime;
 
-public class BanksList implements IClientOption{
-    public void Option(Client currentClient)
-    {
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
-        for (Bank bank : centralBank.GetBanks())
-        {
+public class BanksList implements IClientOption {
+    public void option(Client currentClient) {
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
+        for (Bank bank : centralBank.getBanks()) {
             System.out.println(bank.getName() + " id: " + bank.getId());
-            if (bank.GetClients().contains(currentClient))
+            if (bank.getClients().contains(currentClient))
                 System.out.println("(You registered)");
             System.out.println();
         }

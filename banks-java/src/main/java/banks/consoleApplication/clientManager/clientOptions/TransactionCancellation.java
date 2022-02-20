@@ -10,23 +10,20 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class TransactionCancellation implements IClientOption{
-    public void Option(Client currentClient) throws IOException, BankException {
+public class TransactionCancellation implements IClientOption {
+    public void option(Client currentClient) throws IOException, BankException {
         Scanner console = new Scanner(System.in);
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter id of account and transaction you want to cancel");
         int accountId = console.nextInt();
         int transactionId = console.nextInt();
         console.nextLine();
 
-        for (AccountTemplate account : currentClient.GetAccounts())
-        {
-            if (account.getId() == accountId)
-            {
-                for (AbstractTransaction transaction : account.GetTransactionHistory())
-                {
+        for (AccountTemplate account : currentClient.getAccounts()) {
+            if (account.getId() == accountId) {
+                for (AbstractTransaction transaction : account.getTransactionHistory()) {
                     if (transaction.getId() == transactionId)
-                        centralBank.CancelOperation(transaction);
+                        centralBank.cancelOperation(transaction);
                     return;
                 }
             }

@@ -9,25 +9,23 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class CreateAccount implements IClientOption{
-    public void Option(Client currentClient) throws IOException, BankException {
+public class CreateAccount implements IClientOption {
+    public void option(Client currentClient) throws IOException, BankException {
         Scanner console = new Scanner(System.in);
-        var centralBank = CentralBank.GetInstance(LocalDateTime.now());
+        var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter id of bank you want to create account");
         int bankId = console.nextInt();
         console.nextLine();
         System.out.println();
 
         Bank bankToAdd = null;
-        for (Bank bank : centralBank.GetBanks())
-        {
+        for (Bank bank : centralBank.getBanks()) {
             if (bank.getId() == bankId)
                 bankToAdd = bank;
             break;
         }
 
-        if (bankToAdd == null)
-        {
+        if (bankToAdd == null) {
             System.out.println("No such bank");
             return;
         }
@@ -44,10 +42,9 @@ public class CreateAccount implements IClientOption{
         int startAmountOfMoney = console.nextInt();
         console.nextLine();
 
-        switch (accountType)
-        {
+        switch (accountType) {
             case 1:
-                bankToAdd.AddDebitAccount(currentClient, startAmountOfMoney);
+                bankToAdd.addDebitAccount(currentClient, startAmountOfMoney);
                 break;
             case 2:
                 System.out.println("Enter the account closing date (year, month, day)");
@@ -57,10 +54,10 @@ public class CreateAccount implements IClientOption{
                         console.nextInt(),
                         1, 1);
                 console.nextLine();
-                bankToAdd.AddDepositAccount(currentClient, startAmountOfMoney, closeDate);
+                bankToAdd.addDepositAccount(currentClient, startAmountOfMoney, closeDate);
                 break;
             case 3:
-                bankToAdd.AddCreditAccount(currentClient, startAmountOfMoney);
+                bankToAdd.addCreditAccount(currentClient, startAmountOfMoney);
                 break;
             case 4:
         }

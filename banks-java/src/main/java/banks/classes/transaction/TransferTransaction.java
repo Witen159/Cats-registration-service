@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 public class TransferTransaction extends AbstractTransaction {
     public TransferTransaction(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney, LocalDateTime currentTime) throws BankException {
         super(sender, recipient, amountOfMoney, currentTime);
-        getSender().ReduceMoney(amountOfMoney);
-        getSender().AddTransaction(this);
+        getSender().reduceMoney(amountOfMoney);
+        getSender().addTransaction(this);
 
-        getRecipient().IncreaseMoney(amountOfMoney);
-        getRecipient().AddTransaction(this);
+        getRecipient().increaseMoney(amountOfMoney);
+        getRecipient().addTransaction(this);
     }
 }

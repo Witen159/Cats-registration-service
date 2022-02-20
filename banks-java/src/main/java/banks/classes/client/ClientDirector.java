@@ -6,47 +6,47 @@ public class ClientDirector {
     private static int _clientId = 1;
     private IClientBuilder _builder;
 
-    public void SetBuilder(IClientBuilder builder) {
+    public void setBuilder(IClientBuilder builder) {
         _builder = builder;
     }
 
-    public void BuildDefaultClient(String name, String surname) {
-        _builder.Reset();
-        _builder.BuildName(name);
-        _builder.BuildSurname(surname);
-        _builder.BuildId(_clientId);
+    public void buildDefaultClient(String name, String surname) {
+        _builder.reset();
+        _builder.buildName(name);
+        _builder.buildSurname(surname);
+        _builder.buildId(_clientId);
         _clientId++;
-        _builder.BuildVerification();
+        _builder.buildVerification();
     }
 
-    public void BuildClientWithPassport(String name, String surname, int passportNumber) throws BankException {
-        _builder.Reset();
-        _builder.BuildName(name);
-        _builder.BuildSurname(surname);
-        _builder.BuildPassport(passportNumber);
-        _builder.BuildId(_clientId);
+    public void buildClientWithPassport(String name, String surname, int passportNumber) throws BankException {
+        _builder.reset();
+        _builder.buildName(name);
+        _builder.buildSurname(surname);
+        _builder.buildPassport(passportNumber);
+        _builder.buildId(_clientId);
         _clientId++;
-        _builder.BuildVerification();
+        _builder.buildVerification();
     }
 
-    public void BuildClientWithAddress(String name, String surname, String address) {
-        _builder.Reset();
-        _builder.BuildName(name);
-        _builder.BuildSurname(surname);
-        _builder.BuildAddress(address);
-        _builder.BuildId(_clientId);
+    public void buildClientWithAddress(String name, String surname, String address) {
+        _builder.reset();
+        _builder.buildName(name);
+        _builder.buildSurname(surname);
+        _builder.buildAddress(address);
+        _builder.buildId(_clientId);
         _clientId++;
-        _builder.BuildVerification();
+        _builder.buildVerification();
     }
 
-    public void BuildFullClient(String name, String surname, int passportNumber, String address) throws BankException {
-        _builder.Reset();
-        _builder.BuildName(name);
-        _builder.BuildSurname(surname);
-        _builder.BuildPassport(passportNumber);
-        _builder.BuildAddress(address);
-        _builder.BuildId(_clientId);
+    public void buildFullClient(String name, String surname, int passportNumber, String address) throws BankException {
+        _builder.reset();
+        _builder.buildName(name);
+        _builder.buildSurname(surname);
+        _builder.buildPassport(passportNumber);
+        _builder.buildAddress(address);
+        _builder.buildId(_clientId);
         _clientId++;
-        _builder.BuildVerification();
+        _builder.buildVerification();
     }
 }

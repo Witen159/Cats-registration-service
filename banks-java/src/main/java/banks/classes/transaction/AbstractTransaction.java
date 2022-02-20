@@ -22,7 +22,6 @@ public class AbstractTransaction {
         Canceled = false;
     }
 
-
     public AccountTemplate getSender() {
         return Sender;
     }
