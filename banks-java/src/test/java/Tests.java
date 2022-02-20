@@ -1,9 +1,9 @@
 import banks.classes.CentralBank;
-import banks.classes.account.AccountTemplate;
+import banks.classes.account.AbstractAccount;
 import banks.classes.bank.Bank;
 import banks.classes.bank.PercentAmount;
 import banks.classes.client.Client;
-import banks.classes.client.ClientBuilder;
+import banks.classes.client.ClientBuilderImpl;
 import banks.classes.client.ClientDirector;
 import banks.classes.observer.notification.CommissionNotification;
 import banks.classes.observer.notification.CreditLimitNotification;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Tests {
     private CentralBank centralBank;
     private ClientDirector clientDirector;
-    private ClientBuilder clientBuilder;
+    private ClientBuilderImpl clientBuilder;
     private LocalDateTime startTime;
 
     @Rule
@@ -34,7 +34,7 @@ public class Tests {
         startTime = LocalDateTime.of(2022, 1, 1, 1, 1);
         centralBank = CentralBank.getInstance(startTime);
         clientDirector = new ClientDirector();
-        clientBuilder = new ClientBuilder();
+        clientBuilder = new ClientBuilderImpl();
         clientDirector.setBuilder(clientBuilder);
     }
 
@@ -59,8 +59,8 @@ public class Tests {
         bank.registerNewClient(ivan);
         bank.registerNewClient(denis);
 
-        AccountTemplate ivanDebit = bank.addDebitAccount(ivan, 75000);
-        AccountTemplate denisDebit = bank.addDebitAccount(denis, 150000);
+        AbstractAccount ivanDebit = bank.addDebitAccount(ivan, 75000);
+        AbstractAccount denisDebit = bank.addDebitAccount(denis, 150000);
 
         AbstractTransaction transaction = bank.transfer(ivanDebit, denisDebit, 30000);
         Assert.assertEquals(denisDebit.getMoney(), 180000, 0);
@@ -93,9 +93,9 @@ public class Tests {
         Bank bank = centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
         bank.registerNewClient(client);
 
-        AccountTemplate debit = bank.addDebitAccount(client, 40000);
-        AccountTemplate deposit = bank.addDepositAccount(client, 40000, centralBank.getCurrentTime().plusDays(40));
-        AccountTemplate credit = bank.addCreditAccount(client, 40000);
+        AbstractAccount debit = bank.addDebitAccount(client, 40000);
+        AbstractAccount deposit = bank.addDepositAccount(client, 40000, centralBank.getCurrentTime().plusDays(40));
+        AbstractAccount credit = bank.addCreditAccount(client, 40000);
 
         // В конце месяца на дебетовый и депозитный упали проценты
         centralBank.newDate(centralBank.getCurrentTime().plusDays(31));

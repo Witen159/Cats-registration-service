@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class RegisterInBank implements IClientOption {
+public class RegisterInBank implements ClientOption {
     public void option(Client currentClient) throws IOException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());

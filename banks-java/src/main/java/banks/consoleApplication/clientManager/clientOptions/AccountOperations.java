@@ -1,7 +1,7 @@
 package banks.consoleApplication.clientManager.clientOptions;
 
 import banks.classes.CentralBank;
-import banks.classes.account.AccountTemplate;
+import banks.classes.account.AbstractAccount;
 import banks.classes.bank.Bank;
 import banks.classes.client.Client;
 import banks.tools.BankException;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class AccountOperations implements IClientOption {
+public class AccountOperations implements ClientOption {
     public void option(Client currentClient) throws IOException, BankException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());
@@ -21,9 +21,9 @@ public class AccountOperations implements IClientOption {
         int transactionAmount = console.nextInt();
         console.nextLine();
 
-        AccountTemplate operationAccount = null;
+        AbstractAccount operationAccount = null;
         Bank operationBank = null;
-        for (AccountTemplate account : currentClient.getAccounts())
+        for (AbstractAccount account : currentClient.getAccounts())
             if (account.getId() == accountOperationId) {
                 operationAccount = account;
                 break;
@@ -58,10 +58,10 @@ public class AccountOperations implements IClientOption {
         }
     }
 
-    private AccountTemplate findAccountFromId(int accountId) {
+    private AbstractAccount findAccountFromId(int accountId) {
         var centralBank = CentralBank.getInstance(LocalDateTime.now());
         for (Bank bank : centralBank.getBanks())
-            for (AccountTemplate account : bank.getAccounts())
+            for (AbstractAccount account : bank.getAccounts())
                 if (account.getId() == accountId)
                     return account;
         return null;

@@ -5,7 +5,7 @@ import banks.tools.BankException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class DebitAccount extends AccountTemplate {
+public class DebitAccount extends AbstractAccount {
     private double deductions = 0;
     private double interestOnTheBalance;
 

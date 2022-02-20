@@ -1,19 +1,19 @@
 package banks.classes.transaction;
 
-import banks.classes.account.AccountTemplate;
+import banks.classes.account.AbstractAccount;
 
 import java.time.LocalDateTime;
 
 public class AbstractTransaction {
     private static int currentId = 1;
-    protected AccountTemplate sender;
-    protected AccountTemplate recipient;
+    protected AbstractAccount sender;
+    protected AbstractAccount recipient;
     protected double amountOfMoney;
     protected LocalDateTime transactionTime;
     protected int id;
     protected boolean canceled;
 
-    public AbstractTransaction(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney, LocalDateTime currentTime) {
+    public AbstractTransaction(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney, LocalDateTime currentTime) {
         id = currentId++;
         this.sender = sender;
         this.recipient = recipient;
@@ -22,11 +22,11 @@ public class AbstractTransaction {
         canceled = false;
     }
 
-    public AccountTemplate getSender() {
+    public AbstractAccount getSender() {
         return sender;
     }
 
-    public AccountTemplate getRecipient() {
+    public AbstractAccount getRecipient() {
         return recipient;
     }
 

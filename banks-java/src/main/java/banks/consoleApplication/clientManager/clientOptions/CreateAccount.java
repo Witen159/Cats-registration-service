@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class CreateAccount implements IClientOption {
+public class CreateAccount implements ClientOption {
     public void option(Client currentClient) throws IOException, BankException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());

@@ -1,5 +1,5 @@
 package banks.classes.observer.notification;
 
-public interface INotification {
+public interface Notification {
     String message(String bankName, double amount);
 }

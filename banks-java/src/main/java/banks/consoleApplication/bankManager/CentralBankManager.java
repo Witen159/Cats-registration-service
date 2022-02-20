@@ -1,7 +1,7 @@
 package banks.consoleApplication.bankManager;
 
 import banks.consoleApplication.bankManager.bankOptions.BanksList;
-import banks.consoleApplication.bankManager.bankOptions.IBankOption;
+import banks.consoleApplication.bankManager.bankOptions.BankOption;
 import banks.consoleApplication.bankManager.bankOptions.RegisterNewBank;
 import banks.consoleApplication.bankManager.bankOptions.RewindTime;
 import banks.tools.BankException;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CentralBankManager {
     private final Scanner console = new Scanner(System.in);
-    private IBankOption bankOption = null;
+    private BankOption bankOption = null;
 
     public void bankManager() throws BankException, IOException {
         System.out.println("Menu:");

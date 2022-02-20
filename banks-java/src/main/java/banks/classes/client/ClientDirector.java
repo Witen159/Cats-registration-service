@@ -4,9 +4,9 @@ import banks.tools.BankException;
 
 public class ClientDirector {
     private static int clientId = 1;
-    private IClientBuilder builder;
+    private ClientBuilder builder;
 
-    public void setBuilder(IClientBuilder builder) {
+    public void setBuilder(ClientBuilder builder) {
         this.builder = builder;
     }
 

@@ -1,17 +1,17 @@
 package banks.classes.client;
 
-import banks.classes.account.AccountTemplate;
-import banks.classes.observer.IObserver;
-import banks.classes.observer.notification.INotification;
+import banks.classes.account.AbstractAccount;
+import banks.classes.observer.Observer;
+import banks.classes.observer.notification.Notification;
 import banks.tools.BankException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Client implements IObserver {
-    private final ArrayList<AccountTemplate> accounts = new ArrayList<AccountTemplate>();
-    private final ArrayList<INotification> notifications = new ArrayList<INotification>();
+public class Client implements Observer {
+    private final ArrayList<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
+    private final ArrayList<Notification> notifications = new ArrayList<Notification>();
     private String name;
     private String surname;
     private String address = null;
@@ -19,15 +19,15 @@ public class Client implements IObserver {
     private boolean verification;
     private int id;
 
-    public List<AccountTemplate> getAccounts() {
+    public List<AbstractAccount> getAccounts() {
         return Collections.unmodifiableList(accounts);
     }
 
-    public List<INotification> getNotifications() {
+    public List<Notification> getNotifications() {
         return Collections.unmodifiableList(notifications);
     }
 
-    public void addAccount(AccountTemplate newAccount) {
+    public void addAccount(AbstractAccount newAccount) {
         accounts.add(newAccount);
     }
 
@@ -43,14 +43,14 @@ public class Client implements IObserver {
         verificationCheck();
     }
 
-    public void update(INotification notification) {
+    public void update(Notification notification) {
         notifications.add(notification);
     }
 
     private void verificationCheck() {
         setVerification(getAddress() != null && getPassportNumber() != 0);
         if (isVerification()) {
-            for (AccountTemplate account : accounts) {
+            for (AbstractAccount account : accounts) {
                 account.сonfirmVerification();
             }
         }

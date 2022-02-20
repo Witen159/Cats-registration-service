@@ -2,45 +2,20 @@ package banks.classes.client;
 
 import banks.tools.BankException;
 
-public class ClientBuilder implements IClientBuilder {
-    private Client client = new Client();
+public interface ClientBuilder {
+    void reset();
 
-    public ClientBuilder() {
-        this.reset();
-    }
+    void buildId(int id);
 
-    public void reset() {
+    void buildName(String name);
 
-        this.client = new Client();
-    }
+    void buildSurname(String surname);
 
-    public void buildId(int id) {
-        this.client.setId(id);
-    }
+    void buildAddress(String address);
 
-    public void buildName(String name) {
-        this.client.setName(name);
-    }
+    void buildPassport(int passportNumber) throws BankException;
 
-    public void buildSurname(String surname) {
-        this.client.setSurname(surname);
-    }
+    void buildVerification();
 
-    public void buildAddress(String address) {
-        this.client.setAddress(address);
-    }
-
-    public void buildPassport(int passportNumber) throws BankException {
-        this.client.setPassport(passportNumber);
-    }
-
-    public void buildVerification() {
-        this.client.setVerification((this.client.getAddress() != null) && (this.client.getPassportNumber() != 0));
-    }
-
-    public Client getClient() {
-        Client result = this.client;
-        reset();
-        return result;
-    }
+    Client getClient();
 }

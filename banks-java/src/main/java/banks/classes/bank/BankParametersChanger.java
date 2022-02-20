@@ -1,6 +1,6 @@
 package banks.classes.bank;
 
-import banks.classes.account.AccountTemplate;
+import banks.classes.account.AbstractAccount;
 import banks.classes.account.CreditAccount;
 import banks.classes.account.DebitAccount;
 import banks.classes.observer.notification.CommissionNotification;
@@ -31,7 +31,7 @@ public class BankParametersChanger {
         if (value < MINIMUM_CREDIT_LIMIT)
             throw new BankException("Credit Negative Limit should be at least 10000");
         bank.setCreditNegativeLimit(value);
-        for (AccountTemplate account : bank.getAccounts()) {
+        for (AbstractAccount account : bank.getAccounts()) {
             if (account instanceof CreditAccount creditAccount)
                 creditAccount.setCreditNegativeLimit(value);
         }
@@ -43,7 +43,7 @@ public class BankParametersChanger {
         if (value < MINIMUM_COMMISSION)
             throw new BankException("Commission should be at least 10000");
         bank.setCommission(value);
-        for (AccountTemplate account : bank.getAccounts()) {
+        for (AbstractAccount account : bank.getAccounts()) {
             if (account instanceof CreditAccount creditAccount)
                 creditAccount.setCommission(value);
         }
@@ -57,7 +57,7 @@ public class BankParametersChanger {
         }
 
         bank.setDebitInterestOnTheBalance(value);
-        for (AccountTemplate account : bank.getAccounts()) {
+        for (AbstractAccount account : bank.getAccounts()) {
             if (account instanceof DebitAccount debitAccount)
                 debitAccount.setInterestOnTheBalance(value);
         }

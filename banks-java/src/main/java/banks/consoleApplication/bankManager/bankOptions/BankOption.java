@@ -4,6 +4,6 @@ import banks.tools.BankException;
 
 import java.io.IOException;
 
-public interface IBankOption {
+public interface BankOption {
     void option() throws BankException, IOException;
 }

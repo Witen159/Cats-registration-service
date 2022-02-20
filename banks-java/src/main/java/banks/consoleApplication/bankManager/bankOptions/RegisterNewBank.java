@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RegisterNewBank implements IBankOption {
+public class RegisterNewBank implements BankOption {
     public void option() throws BankException {
         Scanner console = new Scanner(System.in);
 

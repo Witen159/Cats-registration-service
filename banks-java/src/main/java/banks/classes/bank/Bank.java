@@ -1,13 +1,13 @@
 package banks.classes.bank;
 
-import banks.classes.account.AccountTemplate;
+import banks.classes.account.AbstractAccount;
 import banks.classes.account.CreditAccount;
 import banks.classes.account.DebitAccount;
 import banks.classes.account.DepositAccount;
 import banks.classes.client.Client;
-import banks.classes.observer.IObservable;
-import banks.classes.observer.IObserver;
-import banks.classes.observer.notification.INotification;
+import banks.classes.observer.Observable;
+import banks.classes.observer.Observer;
+import banks.classes.observer.notification.Notification;
 import banks.classes.transaction.AbstractTransaction;
 import banks.classes.transaction.RefillTransaction;
 import banks.classes.transaction.TransferTransaction;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Bank implements IObservable {
+public class Bank implements Observable {
     private static int currentId = 1;
-    private final ArrayList<AccountTemplate> accounts = new ArrayList<AccountTemplate>();
+    private final ArrayList<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
     private final ArrayList<Client> clients = new ArrayList<Client>();
-    private final ArrayList<IObserver> observers = new ArrayList<IObserver>();
+    private final ArrayList<Observer> observers = new ArrayList<Observer>();
     private final int id;
     private final String name;
     private final BankParametersChanger bankParametersChanger;
@@ -46,7 +46,7 @@ public class Bank implements IObservable {
         this.currentTime = currentTime;
     }
 
-    public AccountTemplate addDebitAccount(Client client, double startMoney) throws BankException {
+    public AbstractAccount addDebitAccount(Client client, double startMoney) throws BankException {
         clientRegisterCheck(client);
         var debitAccount = new DebitAccount(startMoney, currentTime, getDebitInterestOnTheBalance(), client.isVerification());
         client.addAccount(debitAccount);
@@ -54,7 +54,7 @@ public class Bank implements IObservable {
         return debitAccount;
     }
 
-    public AccountTemplate addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
+    public AbstractAccount addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
         clientRegisterCheck(client);
         var depositAccount = new DepositAccount(startMoney, currentTime, getDepositInterestOnTheBalance().getCurrentPercent(startMoney), depositCloseTime, client.isVerification());
         client.addAccount(depositAccount);
@@ -62,7 +62,7 @@ public class Bank implements IObservable {
         return depositAccount;
     }
 
-    public AccountTemplate addCreditAccount(Client client, double startMoney) throws BankException {
+    public AbstractAccount addCreditAccount(Client client, double startMoney) throws BankException {
         clientRegisterCheck(client);
         var creditAccount = new CreditAccount(startMoney, currentTime, getCommission(), getCreditNegativeLimit(), client.isVerification());
         client.addAccount(creditAccount);
@@ -70,18 +70,18 @@ public class Bank implements IObservable {
         return creditAccount;
     }
 
-    public AbstractTransaction transfer(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney) throws BankException {
+    public AbstractTransaction transfer(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney) throws BankException {
         accountCheck(sender);
         operationLimitCheck(sender, amountOfMoney);
         return new TransferTransaction(sender, recipient, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction refill(AccountTemplate account, double amountOfMoney) throws BankException {
+    public AbstractTransaction refill(AbstractAccount account, double amountOfMoney) throws BankException {
         accountCheck(account);
         return new RefillTransaction(null, account, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction withdrawal(AccountTemplate account, double amountOfMoney) throws BankException {
+    public AbstractTransaction withdrawal(AbstractAccount account, double amountOfMoney) throws BankException {
         accountCheck(account);
         operationLimitCheck(account, amountOfMoney);
         return new WithdrawalTransaction(account, null, amountOfMoney, currentTime);
@@ -91,8 +91,8 @@ public class Bank implements IObservable {
         clients.add(client);
     }
 
-    public AccountTemplate getAccount(int accountId) {
-        for (AccountTemplate account : accounts)
+    public AbstractAccount getAccount(int accountId) {
+        for (AbstractAccount account : accounts)
             if (account.getId() == accountId)
                 return account;
         return null;
@@ -100,26 +100,26 @@ public class Bank implements IObservable {
 
     public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         currentTime = timeOfTheNewPayment;
-        for (AccountTemplate account : accounts) {
+        for (AbstractAccount account : accounts) {
             account.paymentOperation(currentTime);
         }
     }
 
-    public void addObserver(IObserver observer) {
+    public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
-    public void removeObserver(IObserver observer) {
+    public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
-    public void notifyObservers(INotification notification) {
-        for (IObserver observer : observers) {
+    public void notifyObservers(Notification notification) {
+        for (Observer observer : observers) {
             observer.update(notification);
         }
     }
 
-    private void operationLimitCheck(AccountTemplate account, double amountOfMoney) throws BankException {
+    private void operationLimitCheck(AbstractAccount account, double amountOfMoney) throws BankException {
         if (!account.isVerification() && amountOfMoney > getOperationLimit())
             throw new BankException("Unconfirmed accounts are prohibited from operations above" + getOperationLimit());
     }
@@ -129,7 +129,7 @@ public class Bank implements IObservable {
             throw new BankException("Client should be registered in the bank");
     }
 
-    private void accountCheck(AccountTemplate account) throws BankException {
+    private void accountCheck(AbstractAccount account) throws BankException {
         if (!accounts.contains(account))
             throw new BankException("The account does not belong to this bank");
     }
@@ -138,7 +138,7 @@ public class Bank implements IObservable {
         return Collections.unmodifiableList(clients);
     }
 
-    public List<AccountTemplate> getAccounts() {
+    public List<AbstractAccount> getAccounts() {
         return Collections.unmodifiableList(accounts);
     }
 

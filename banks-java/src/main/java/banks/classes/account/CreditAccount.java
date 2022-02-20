@@ -5,7 +5,7 @@ import banks.tools.BankException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class CreditAccount extends AccountTemplate {
+public class CreditAccount extends AbstractAccount {
     private double commission;
     private int creditNegativeLimit;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AccountTemplate {
+public class AbstractAccount {
     private static int currentId = 1;
     protected double money;
     protected ArrayList<AbstractTransaction> transactionHistory = new ArrayList<AbstractTransaction>();
@@ -16,7 +16,7 @@ public class AccountTemplate {
     protected int id;
     protected boolean verification;
 
-    public AccountTemplate(double startMoney, LocalDateTime currentTime, boolean verification) {
+    public AbstractAccount(double startMoney, LocalDateTime currentTime, boolean verification) {
         id = currentId++;
         money = startMoney;
         this.currentTime = currentTime;

@@ -6,7 +6,7 @@ import banks.classes.client.Client;
 
 import java.time.LocalDateTime;
 
-public class BanksList implements IClientOption {
+public class BanksList implements ClientOption {
     public void option(Client currentClient) {
         var centralBank = CentralBank.getInstance(LocalDateTime.now());
         for (Bank bank : centralBank.getBanks()) {

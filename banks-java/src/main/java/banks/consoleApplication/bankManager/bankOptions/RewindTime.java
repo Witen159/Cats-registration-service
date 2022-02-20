@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class RewindTime implements IBankOption {
+public class RewindTime implements BankOption {
     public void option() throws IOException, BankException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());

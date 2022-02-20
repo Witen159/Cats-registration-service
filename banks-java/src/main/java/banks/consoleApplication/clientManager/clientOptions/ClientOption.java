@@ -5,6 +5,6 @@ import banks.tools.BankException;
 
 import java.io.IOException;
 
-public interface IClientOption {
+public interface ClientOption {
     void option(Client currentClient) throws IOException, BankException;
 }

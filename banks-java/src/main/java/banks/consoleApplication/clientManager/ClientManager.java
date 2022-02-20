@@ -1,7 +1,7 @@
 package banks.consoleApplication.clientManager;
 
 import banks.classes.client.Client;
-import banks.classes.client.ClientBuilder;
+import banks.classes.client.ClientBuilderImpl;
 import banks.classes.client.ClientDirector;
 import banks.consoleApplication.clientManager.clientOptions.*;
 import banks.tools.BankException;
@@ -13,9 +13,9 @@ import java.util.Scanner;
 public class ClientManager {
     private final ArrayList<Client> clientsList = new ArrayList<Client>();
     private final ClientDirector clientDirector = new ClientDirector();
-    private final ClientBuilder clientBuilder = new ClientBuilder();
+    private final ClientBuilderImpl clientBuilder = new ClientBuilderImpl();
     private final Scanner console = new Scanner(System.in);
-    private IClientOption clientOption = null;
+    private ClientOption clientOption = null;
     private Client currentClient = null;
 
     public ClientManager() {
