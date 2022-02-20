@@ -58,8 +58,7 @@ public class CentralBank {
     }
 
     private void PaymentOperation() throws BankException {
-        for(Bank bank : _banks)
-        {
+        for (Bank bank : _banks) {
             bank.PaymentOperation(CurrentTime);
         }
     }

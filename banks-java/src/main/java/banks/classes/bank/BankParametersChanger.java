@@ -31,10 +31,9 @@ public class BankParametersChanger {
         if (value < MinimumCreditLimit)
             throw new BankException("Credit Negative Limit should be at least 10000");
         _bank.setCreditNegativeLimit(value);
-        for(AccountTemplate account : _bank.GetAccounts())
-        {
+        for (AccountTemplate account : _bank.GetAccounts()) {
             if (account instanceof CreditAccount creditAccount)
-            creditAccount.setCreditNegativeLimit(value);
+                creditAccount.setCreditNegativeLimit(value);
         }
 
         _bank.NotifyObservers(new CreditLimitNotification());
@@ -44,8 +43,7 @@ public class BankParametersChanger {
         if (value < MinimumCommission)
             throw new BankException("Commission should be at least 10000");
         _bank.setCommission(value);
-        for(AccountTemplate account : _bank.GetAccounts())
-        {
+        for (AccountTemplate account : _bank.GetAccounts()) {
             if (account instanceof CreditAccount creditAccount)
                 creditAccount.setCommission(value);
         }
@@ -59,8 +57,7 @@ public class BankParametersChanger {
         }
 
         _bank.setDebitInterestOnTheBalance(value);
-        for(AccountTemplate account: _bank.GetAccounts())
-        {
+        for (AccountTemplate account : _bank.GetAccounts()) {
             if (account instanceof DebitAccount debitAccount)
                 debitAccount.setInterestOnTheBalance(value);
         }

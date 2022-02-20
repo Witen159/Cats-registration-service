@@ -51,8 +51,7 @@ public class Client implements IObserver {
     private void VerificationCheck() {
         setVerification(getAddress() != null && getPassportNumber() != 0);
         if (isVerification()) {
-            for(AccountTemplate account : _accounts)
-            {
+            for (AccountTemplate account : _accounts) {
                 account.СonfirmVerification();
             }
         }

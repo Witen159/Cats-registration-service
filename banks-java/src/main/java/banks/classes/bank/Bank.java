@@ -104,8 +104,7 @@ public class Bank implements IObservable {
 
     public void PaymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         _currentTime = timeOfTheNewPayment;
-         for(AccountTemplate account : _accounts)
-        {
+        for (AccountTemplate account : _accounts) {
             account.PaymentOperation(_currentTime);
         }
     }
@@ -119,8 +118,7 @@ public class Bank implements IObservable {
     }
 
     public void NotifyObservers(INotification notification) {
-        for(IObserver observer : _observers)
-        {
+        for (IObserver observer : _observers) {
             observer.Update(notification);
         }
     }
