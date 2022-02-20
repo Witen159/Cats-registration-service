@@ -5,44 +5,44 @@ import banks.classes.account.AccountTemplate;
 import java.time.LocalDateTime;
 
 public class AbstractTransaction {
-    private static int _currentId = 1;
-    protected AccountTemplate Sender;
-    protected AccountTemplate Recipient;
-    protected double AmountOfMoney;
-    protected LocalDateTime TransactionTime;
-    protected int Id;
-    protected boolean Canceled;
+    private static int currentId = 1;
+    protected AccountTemplate sender;
+    protected AccountTemplate recipient;
+    protected double amountOfMoney;
+    protected LocalDateTime transactionTime;
+    protected int id;
+    protected boolean canceled;
 
     public AbstractTransaction(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney, LocalDateTime currentTime) {
-        Id = _currentId++;
-        Sender = sender;
-        Recipient = recipient;
-        AmountOfMoney = amountOfMoney;
-        TransactionTime = currentTime;
-        Canceled = false;
+        id = currentId++;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.amountOfMoney = amountOfMoney;
+        transactionTime = currentTime;
+        canceled = false;
     }
 
     public AccountTemplate getSender() {
-        return Sender;
+        return sender;
     }
 
     public AccountTemplate getRecipient() {
-        return Recipient;
+        return recipient;
     }
 
     public double getAmountOfMoney() {
-        return AmountOfMoney;
+        return amountOfMoney;
     }
 
     public LocalDateTime getTransactionTime() {
-        return TransactionTime;
+        return transactionTime;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public boolean isCanceled() {
-        return Canceled;
+        return canceled;
     }
 }

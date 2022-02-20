@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class ConsoleApp {
-    private final CentralBank _centralBank = CentralBank.getInstance(LocalDateTime.now());
-    private final ClientManager _clientManager = new ClientManager();
-    private final CentralBankManager _centralBankManager = new CentralBankManager();
+    private final CentralBank centralBank = CentralBank.getInstance(LocalDateTime.now());
+    private final ClientManager clientManager = new ClientManager();
+    private final CentralBankManager centralBankManager = new CentralBankManager();
     private final Scanner console = new Scanner(System.in);
 
     public ConsoleApp() throws BankException, IOException {
@@ -33,10 +33,10 @@ public class ConsoleApp {
 
         switch (choice) {
             case 1:
-                _centralBankManager.bankManager();
+                centralBankManager.bankManager();
                 break;
             case 2:
-                _clientManager.logIn();
+                clientManager.logIn();
                 break;
             case 3:
                 return;

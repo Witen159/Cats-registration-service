@@ -10,89 +10,89 @@ import java.util.Collections;
 import java.util.List;
 
 public class Client implements IObserver {
-    private final ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
-    private final ArrayList<INotification> _notifications = new ArrayList<INotification>();
-    private String Name;
-    private String Surname;
-    private String Address = null;
-    private int PassportNumber = 0;
-    private boolean Verification;
-    private int Id;
+    private final ArrayList<AccountTemplate> accounts = new ArrayList<AccountTemplate>();
+    private final ArrayList<INotification> notifications = new ArrayList<INotification>();
+    private String name;
+    private String surname;
+    private String address = null;
+    private int passportNumber = 0;
+    private boolean verification;
+    private int id;
 
     public List<AccountTemplate> getAccounts() {
-        return Collections.unmodifiableList(_accounts);
+        return Collections.unmodifiableList(accounts);
     }
 
     public List<INotification> getNotifications() {
-        return Collections.unmodifiableList(_notifications);
+        return Collections.unmodifiableList(notifications);
     }
 
     public void addAccount(AccountTemplate newAccount) {
-        _accounts.add(newAccount);
+        accounts.add(newAccount);
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
         verificationCheck();
     }
 
     public void setPassport(int passportNumber) throws BankException {
         if (getPassportNumber() != 0)
             throw new BankException("Passport number already added");
-        PassportNumber = passportNumber;
+        this.passportNumber = passportNumber;
         verificationCheck();
     }
 
     public void update(INotification notification) {
-        _notifications.add(notification);
+        notifications.add(notification);
     }
 
     private void verificationCheck() {
         setVerification(getAddress() != null && getPassportNumber() != 0);
         if (isVerification()) {
-            for (AccountTemplate account : _accounts) {
+            for (AccountTemplate account : accounts) {
                 account.сonfirmVerification();
             }
         }
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getSurname() {
-        return Surname;
+        return surname;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public int getPassportNumber() {
-        return PassportNumber;
+        return passportNumber;
     }
 
     public boolean isVerification() {
-        return Verification;
+        return verification;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public void setSurname(String surname) {
-        Surname = surname;
+        this.surname = surname;
     }
 
     public void setVerification(boolean verification) {
-        Verification = verification;
+        this.verification = verification;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 }

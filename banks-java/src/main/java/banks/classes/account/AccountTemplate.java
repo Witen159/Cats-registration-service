@@ -9,74 +9,74 @@ import java.util.Collections;
 import java.util.List;
 
 public class AccountTemplate {
-    private static int _currentId = 1;
-    protected double _money;
-    protected ArrayList<AbstractTransaction> _transactionHistory = new ArrayList<AbstractTransaction>();
-    protected LocalDateTime CurrentTime;
-    protected int Id;
-    protected boolean Verification;
+    private static int currentId = 1;
+    protected double money;
+    protected ArrayList<AbstractTransaction> transactionHistory = new ArrayList<AbstractTransaction>();
+    protected LocalDateTime currentTime;
+    protected int id;
+    protected boolean verification;
 
     public AccountTemplate(double startMoney, LocalDateTime currentTime, boolean verification) {
-        Id = _currentId++;
-        _money = startMoney;
-        this.CurrentTime = currentTime;
-        Verification = verification;
+        id = currentId++;
+        money = startMoney;
+        this.currentTime = currentTime;
+        this.verification = verification;
     }
 
     public void increaseMoney(double amountOfMoney) throws BankException {
         if (amountOfMoney < 0)
             throw new BankException("You should change account money only in positive amount of money");
-        _money += amountOfMoney;
+        money += amountOfMoney;
     }
 
     public void reduceMoney(double amountOfMoney) throws BankException {
         if (amountOfMoney < 0)
             throw new BankException("You should change account money only in positive amount of money");
-        _money -= amountOfMoney;
+        money -= amountOfMoney;
     }
 
     public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
     }
 
     public void addTransaction(AbstractTransaction transaction) {
-        _transactionHistory.add(transaction);
+        transactionHistory.add(transaction);
     }
 
     // Изменение баланса в обход ограничений счета для отмены операций
     public void cancelOperation(double transactionAmount) {
-        _money += transactionAmount;
+        money += transactionAmount;
     }
 
     public void сonfirmVerification() {
-        Verification = true;
+        verification = true;
     }
 
     public void transactionCheck(AbstractTransaction transaction) throws BankException {
-        if (!_transactionHistory.contains(transaction))
+        if (!transactionHistory.contains(transaction))
             throw new BankException("Transaction" + transaction.getId() + "does not belong to the account" + getId());
     }
 
     public List<AbstractTransaction> getTransactionHistory() {
-        return Collections.unmodifiableList(_transactionHistory);
+        return Collections.unmodifiableList(transactionHistory);
     }
 
     public double getMoney() {
-        return Math.round(_money * 100.0) / 100.0;
+        return Math.round(money * 100.0) / 100.0;
     }
 
     public void setMoney(double money) {
-        _money = money;
+        this.money = money;
     }
 
     public LocalDateTime getCurrentTime() {
-        return CurrentTime;
+        return currentTime;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public boolean isVerification() {
-        return Verification;
+        return verification;
     }
 }

@@ -6,8 +6,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class CreditAccount extends AccountTemplate {
-    private double Commission;
-    private int CreditNegativeLimit;
+    private double commission;
+    private int creditNegativeLimit;
 
     public CreditAccount(double startMoney, LocalDateTime currentTime, double commission, int creditNegativeLimit, boolean verification) {
         super(startMoney, currentTime, verification);
@@ -23,35 +23,35 @@ public class CreditAccount extends AccountTemplate {
 
     @Override
     public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
-        long differenceInDays = Duration.between(CurrentTime, timeOfTheNewPayment).toDays();
+        long differenceInDays = Duration.between(currentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {
-            if (_money < 0) {
+            if (money < 0) {
                 isWillGoOverCreditLimit(getCommission());
                 reduceMoney(getCommission());
             }
 
-            CurrentTime = getCurrentTime().plusDays(1);
+            currentTime = getCurrentTime().plusDays(1);
         }
     }
 
     private void isWillGoOverCreditLimit(double amountOfMoney) throws BankException {
-        if (_money - amountOfMoney < -getCreditNegativeLimit())
+        if (money - amountOfMoney < -getCreditNegativeLimit())
             throw new BankException("The balance fell below the credit limit");
     }
 
     public double getCommission() {
-        return Commission;
+        return commission;
     }
 
     public void setCommission(double commission) {
-        Commission = commission;
+        this.commission = commission;
     }
 
     public int getCreditNegativeLimit() {
-        return CreditNegativeLimit;
+        return creditNegativeLimit;
     }
 
     public void setCreditNegativeLimit(int creditNegativeLimit) {
-        CreditNegativeLimit = creditNegativeLimit;
+        this.creditNegativeLimit = creditNegativeLimit;
     }
 }

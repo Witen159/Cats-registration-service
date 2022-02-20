@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientManager {
-    private final ArrayList<Client> _clientsList = new ArrayList<Client>();
-    private final ClientDirector _clientDirector = new ClientDirector();
-    private final ClientBuilder _clientBuilder = new ClientBuilder();
+    private final ArrayList<Client> clientsList = new ArrayList<Client>();
+    private final ClientDirector clientDirector = new ClientDirector();
+    private final ClientBuilder clientBuilder = new ClientBuilder();
     private final Scanner console = new Scanner(System.in);
-    private IClientOption _clientOption = null;
-    private Client _currentClient = null;
+    private IClientOption clientOption = null;
+    private Client currentClient = null;
 
     public ClientManager() {
-        _clientDirector.setBuilder(_clientBuilder);
+        clientDirector.setBuilder(clientBuilder);
     }
 
     public void logIn() throws IOException, BankException {
@@ -35,16 +35,16 @@ public class ClientManager {
                 System.out.println("Type your full name:");
                 String fullName = console.nextLine();
                 System.out.println();
-                _currentClient = null;
+                currentClient = null;
 
-                for (Client client : _clientsList) {
+                for (Client client : clientsList) {
                     if ((client.getName() + " " + client.getSurname()).equals(fullName)) {
-                        _currentClient = client;
+                        currentClient = client;
                         break;
                     }
                 }
 
-                if (_currentClient == null) {
+                if (currentClient == null) {
                     System.out.println("Such a user is not registered");
                     System.out.println();
                     logIn();
@@ -83,28 +83,28 @@ public class ClientManager {
 
         switch (choice) {
             case 1:
-                _clientOption = new BanksList();
+                clientOption = new BanksList();
                 break;
             case 2:
-                _clientOption = new RegisterInBank();
+                clientOption = new RegisterInBank();
                 break;
             case 3:
-                _clientOption = new CreateAccount();
+                clientOption = new CreateAccount();
                 break;
             case 4:
-                _clientOption = new AccountsList();
+                clientOption = new AccountsList();
                 break;
             case 5:
-                _clientOption = new AccountBalance();
+                clientOption = new AccountBalance();
                 break;
             case 6:
-                _clientOption = new AccountOperations();
+                clientOption = new AccountOperations();
                 break;
             case 7:
-                _clientOption = new TransactionHistory();
+                clientOption = new TransactionHistory();
                 break;
             case 8:
-                _clientOption = new TransactionCancellation();
+                clientOption = new TransactionCancellation();
                 break;
             case 9:
                 return;
@@ -114,7 +114,7 @@ public class ClientManager {
                 return;
         }
 
-        _clientOption.option(_currentClient);
+        clientOption.option(currentClient);
         manager();
     }
 
@@ -125,7 +125,7 @@ public class ClientManager {
         System.out.println("Type your surname:");
         String surname = console.nextLine();
 
-        for (Client client : _clientsList) {
+        for (Client client : clientsList) {
             if (name.equals(client.getName()) && surname.equals(client.getSurname())) {
                 System.out.println("This user is already registered");
                 logIn();
@@ -140,15 +140,15 @@ public class ClientManager {
         String passport = console.nextLine();
 
         if (address.isEmpty() && passport.isEmpty())
-            _clientDirector.buildDefaultClient(name, surname);
+            clientDirector.buildDefaultClient(name, surname);
         else if (address.isEmpty())
-            _clientDirector.buildClientWithPassport(name, surname, Integer.parseInt(passport));
+            clientDirector.buildClientWithPassport(name, surname, Integer.parseInt(passport));
         else if (passport.isEmpty())
-            _clientDirector.buildClientWithAddress(name, surname, address);
+            clientDirector.buildClientWithAddress(name, surname, address);
         else
-            _clientDirector.buildFullClient(name, surname, Integer.parseInt(passport), address);
+            clientDirector.buildFullClient(name, surname, Integer.parseInt(passport), address);
 
-        _currentClient = _clientBuilder.getClient();
-        _clientsList.add(_currentClient);
+        currentClient = clientBuilder.getClient();
+        clientsList.add(currentClient);
     }
 }

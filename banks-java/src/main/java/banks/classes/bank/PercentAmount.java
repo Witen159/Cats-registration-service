@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class PercentAmount {
-    private ArrayList<Integer> _moneyBorders;
-    private ArrayList<Double> _percents;
+    private ArrayList<Integer> moneyBorders;
+    private ArrayList<Double> percents;
 
     public PercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
         setup(moneyBorders, percents);
@@ -19,26 +19,26 @@ public class PercentAmount {
     }
 
     public double getCurrentPercent(double money) {
-        for (int i = 0; i < _moneyBorders.size(); i++) {
-            if (money < _moneyBorders.get(i))
-                return _percents.get(i);
+        for (int i = 0; i < moneyBorders.size(); i++) {
+            if (money < moneyBorders.get(i))
+                return percents.get(i);
         }
 
-        return _percents.get(_percents.size() - 1);
+        return percents.get(percents.size() - 1);
     }
 
     private void setup(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) throws BankException {
         if (moneyBorders.size() + 1 != percents.size())
             throw new BankException("Incorrect money borders and percents match");
-        _moneyBorders = moneyBorders;
-        _percents = percents;
+        this.moneyBorders = moneyBorders;
+        this.percents = percents;
     }
 
     public List<Double> getPercents() {
-        return Collections.unmodifiableList(_percents);
+        return Collections.unmodifiableList(percents);
     }
 
     public List<Integer> getMoneyBorders() {
-        return Collections.unmodifiableList(_moneyBorders);
+        return Collections.unmodifiableList(moneyBorders);
     }
 }

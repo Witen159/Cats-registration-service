@@ -13,39 +13,39 @@ import java.util.Collections;
 import java.util.List;
 
 public class CentralBank {
-    private static CentralBank _instance;
-    private final ArrayList<Bank> _banks = new ArrayList<>();
-    private LocalDateTime CurrentTime;
+    private static CentralBank instance;
+    private final ArrayList<Bank> banks = new ArrayList<>();
+    private LocalDateTime currentTime;
 
     private CentralBank(LocalDateTime currentTime) {
-        CurrentTime = currentTime;
+        this.currentTime = currentTime;
     }
 
     public static CentralBank getInstance(LocalDateTime currentTime) {
-        if (_instance == null)
-            _instance = new CentralBank(currentTime);
-        return _instance;
+        if (instance == null)
+            instance = new CentralBank(currentTime);
+        return instance;
     }
 
     public Bank registerNewBank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission) throws BankException {
-        var newBank = new Bank(name, operationLimit, creditNegativeLimit, depositInterestOnTheBalance, debitInterestOnTheBalance, commission, CurrentTime);
-        _banks.add(newBank);
+        var newBank = new Bank(name, operationLimit, creditNegativeLimit, depositInterestOnTheBalance, debitInterestOnTheBalance, commission, currentTime);
+        banks.add(newBank);
         return newBank;
     }
 
     public LocalDateTime getCurrentTime() {
-        return _instance.CurrentTime;
+        return instance.currentTime;
     }
 
     public void newDate(LocalDateTime newDate) throws BankException {
-        if (Duration.between(CurrentTime, newDate).toDays() < 1)
+        if (Duration.between(currentTime, newDate).toDays() < 1)
             throw new BankException("New date should be at least next day");
-        _instance.CurrentTime = newDate;
+        instance.currentTime = newDate;
         paymentOperation();
     }
 
     public Bank getBank(int bankId) {
-        for (Bank bank : _banks)
+        for (Bank bank : banks)
             if (bank.getId() == bankId)
                 return bank;
         return null;
@@ -56,12 +56,12 @@ public class CentralBank {
     }
 
     private void paymentOperation() throws BankException {
-        for (Bank bank : _banks) {
-            bank.paymentOperation(CurrentTime);
+        for (Bank bank : banks) {
+            bank.paymentOperation(currentTime);
         }
     }
 
     public List<Bank> getBanks() {
-        return Collections.unmodifiableList(_banks);
+        return Collections.unmodifiableList(banks);
     }
 }

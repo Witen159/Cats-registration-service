@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CentralBankManager {
     private final Scanner console = new Scanner(System.in);
-    private IBankOption _bankOption = null;
+    private IBankOption bankOption = null;
 
     public void bankManager() throws BankException, IOException {
         System.out.println("Menu:");
@@ -25,13 +25,13 @@ public class CentralBankManager {
 
         switch (choice) {
             case 1:
-                _bankOption = new RegisterNewBank();
+                bankOption = new RegisterNewBank();
                 break;
             case 2:
-                _bankOption = new BanksList();
+                bankOption = new BanksList();
                 break;
             case 3:
-                _bankOption = new RewindTime();
+                bankOption = new RewindTime();
                 break;
             case 4:
                 return;
@@ -41,7 +41,7 @@ public class CentralBankManager {
                 return;
         }
 
-        _bankOption.option();
+        bankOption.option();
         bankManager();
     }
 }

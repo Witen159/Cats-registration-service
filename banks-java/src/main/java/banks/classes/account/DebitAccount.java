@@ -6,8 +6,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class DebitAccount extends AccountTemplate {
-    private double _deductions = 0;
-    private double InterestOnTheBalance;
+    private double deductions = 0;
+    private double interestOnTheBalance;
 
     public DebitAccount(double startMoney, LocalDateTime currentTime, double interestOnTheBalance, boolean verification) {
         super(startMoney, currentTime, verification);
@@ -16,7 +16,7 @@ public class DebitAccount extends AccountTemplate {
 
     @Override
     public void reduceMoney(double amountOfMoney) throws BankException {
-        if (amountOfMoney > _money)
+        if (amountOfMoney > money)
             throw new BankException("Debit account cannot go into negative territory");
         super.reduceMoney(amountOfMoney);
     }
@@ -24,23 +24,23 @@ public class DebitAccount extends AccountTemplate {
     @Override
     public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
         var daysControlSystem = new DaysControlSystem();
-        long differenceInDays = Duration.between(CurrentTime, timeOfTheNewPayment).toDays();
+        long differenceInDays = Duration.between(currentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {
-            _deductions += _money * ((getInterestOnTheBalance() * 0.01) / daysControlSystem.daysPerYear(getCurrentTime()));
+            deductions += money * ((getInterestOnTheBalance() * 0.01) / daysControlSystem.daysPerYear(getCurrentTime()));
             if (daysControlSystem.isItLastDayOfMonth(getCurrentTime())) {
-                increaseMoney(_deductions);
-                _deductions = 0;
+                increaseMoney(deductions);
+                deductions = 0;
             }
 
-            CurrentTime = getCurrentTime().plusDays(1);
+            currentTime = getCurrentTime().plusDays(1);
         }
     }
 
     public double getInterestOnTheBalance() {
-        return InterestOnTheBalance;
+        return interestOnTheBalance;
     }
 
     public void setInterestOnTheBalance(double interestOnTheBalance) {
-        InterestOnTheBalance = interestOnTheBalance;
+        this.interestOnTheBalance = interestOnTheBalance;
     }
 }

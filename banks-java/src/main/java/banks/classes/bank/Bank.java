@@ -20,101 +20,101 @@ import java.util.Collections;
 import java.util.List;
 
 public class Bank implements IObservable {
-    private static int _currentId = 1;
-    private final ArrayList<AccountTemplate> _accounts = new ArrayList<AccountTemplate>();
-    private final ArrayList<Client> _clients = new ArrayList<Client>();
-    private final ArrayList<IObserver> _observers = new ArrayList<IObserver>();
-    private final int Id;
-    private final String Name;
-    private final BankParametersChanger BankParametersChanger;
-    private LocalDateTime _currentTime;
-    private double DebitInterestOnTheBalance;
-    private double Commission;
-    private int OperationLimit;
-    private int CreditNegativeLimit;
-    private PercentAmount DepositInterestOnTheBalance;
+    private static int currentId = 1;
+    private final ArrayList<AccountTemplate> accounts = new ArrayList<AccountTemplate>();
+    private final ArrayList<Client> clients = new ArrayList<Client>();
+    private final ArrayList<IObserver> observers = new ArrayList<IObserver>();
+    private final int id;
+    private final String name;
+    private final BankParametersChanger bankParametersChanger;
+    private LocalDateTime currentTime;
+    private double debitInterestOnTheBalance;
+    private double commission;
+    private int operationLimit;
+    private int creditNegativeLimit;
+    private PercentAmount depositInterestOnTheBalance;
 
     public Bank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission, LocalDateTime currentTime) throws BankException {
-        Name = name;
-        Id = _currentId++;
-        BankParametersChanger = new BankParametersChanger(this);
-        BankParametersChanger.changeOperationLimit(operationLimit);
-        BankParametersChanger.changeCreditNegativeLimit(creditNegativeLimit);
-        BankParametersChanger.changeDepositInterestOnTheBalance(depositInterestOnTheBalance);
-        BankParametersChanger.changeDebitInterestOnTheBalance(debitInterestOnTheBalance);
-        BankParametersChanger.changeCommission(commission);
-        _currentTime = currentTime;
+        this.name = name;
+        id = currentId++;
+        bankParametersChanger = new BankParametersChanger(this);
+        bankParametersChanger.changeOperationLimit(operationLimit);
+        bankParametersChanger.changeCreditNegativeLimit(creditNegativeLimit);
+        bankParametersChanger.changeDepositInterestOnTheBalance(depositInterestOnTheBalance);
+        bankParametersChanger.changeDebitInterestOnTheBalance(debitInterestOnTheBalance);
+        bankParametersChanger.changeCommission(commission);
+        this.currentTime = currentTime;
     }
 
     public AccountTemplate addDebitAccount(Client client, double startMoney) throws BankException {
         clientRegisterCheck(client);
-        var debitAccount = new DebitAccount(startMoney, _currentTime, getDebitInterestOnTheBalance(), client.isVerification());
+        var debitAccount = new DebitAccount(startMoney, currentTime, getDebitInterestOnTheBalance(), client.isVerification());
         client.addAccount(debitAccount);
-        _accounts.add(debitAccount);
+        accounts.add(debitAccount);
         return debitAccount;
     }
 
     public AccountTemplate addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
         clientRegisterCheck(client);
-        var depositAccount = new DepositAccount(startMoney, _currentTime, getDepositInterestOnTheBalance().getCurrentPercent(startMoney), depositCloseTime, client.isVerification());
+        var depositAccount = new DepositAccount(startMoney, currentTime, getDepositInterestOnTheBalance().getCurrentPercent(startMoney), depositCloseTime, client.isVerification());
         client.addAccount(depositAccount);
-        _accounts.add(depositAccount);
+        accounts.add(depositAccount);
         return depositAccount;
     }
 
     public AccountTemplate addCreditAccount(Client client, double startMoney) throws BankException {
         clientRegisterCheck(client);
-        var creditAccount = new CreditAccount(startMoney, _currentTime, getCommission(), getCreditNegativeLimit(), client.isVerification());
+        var creditAccount = new CreditAccount(startMoney, currentTime, getCommission(), getCreditNegativeLimit(), client.isVerification());
         client.addAccount(creditAccount);
-        _accounts.add(creditAccount);
+        accounts.add(creditAccount);
         return creditAccount;
     }
 
     public AbstractTransaction transfer(AccountTemplate sender, AccountTemplate recipient, double amountOfMoney) throws BankException {
         accountCheck(sender);
         operationLimitCheck(sender, amountOfMoney);
-        return new TransferTransaction(sender, recipient, amountOfMoney, _currentTime);
+        return new TransferTransaction(sender, recipient, amountOfMoney, currentTime);
     }
 
     public AbstractTransaction refill(AccountTemplate account, double amountOfMoney) throws BankException {
         accountCheck(account);
-        return new RefillTransaction(null, account, amountOfMoney, _currentTime);
+        return new RefillTransaction(null, account, amountOfMoney, currentTime);
     }
 
     public AbstractTransaction withdrawal(AccountTemplate account, double amountOfMoney) throws BankException {
         accountCheck(account);
         operationLimitCheck(account, amountOfMoney);
-        return new WithdrawalTransaction(account, null, amountOfMoney, _currentTime);
+        return new WithdrawalTransaction(account, null, amountOfMoney, currentTime);
     }
 
     public void registerNewClient(Client client) {
-        _clients.add(client);
+        clients.add(client);
     }
 
     public AccountTemplate getAccount(int accountId) {
-        for (AccountTemplate account : _accounts)
+        for (AccountTemplate account : accounts)
             if (account.getId() == accountId)
                 return account;
         return null;
     }
 
     public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
-        _currentTime = timeOfTheNewPayment;
-        for (AccountTemplate account : _accounts) {
-            account.paymentOperation(_currentTime);
+        currentTime = timeOfTheNewPayment;
+        for (AccountTemplate account : accounts) {
+            account.paymentOperation(currentTime);
         }
     }
 
     public void addObserver(IObserver observer) {
-        _observers.add(observer);
+        observers.add(observer);
     }
 
     public void removeObserver(IObserver observer) {
-        _observers.remove(observer);
+        observers.remove(observer);
     }
 
     public void notifyObservers(INotification notification) {
-        for (IObserver observer : _observers) {
+        for (IObserver observer : observers) {
             observer.update(notification);
         }
     }
@@ -125,72 +125,72 @@ public class Bank implements IObservable {
     }
 
     private void clientRegisterCheck(Client client) throws BankException {
-        if (!_clients.contains(client))
+        if (!clients.contains(client))
             throw new BankException("Client should be registered in the bank");
     }
 
     private void accountCheck(AccountTemplate account) throws BankException {
-        if (!_accounts.contains(account))
+        if (!accounts.contains(account))
             throw new BankException("The account does not belong to this bank");
     }
 
     public List<Client> getClients() {
-        return Collections.unmodifiableList(_clients);
+        return Collections.unmodifiableList(clients);
     }
 
     public List<AccountTemplate> getAccounts() {
-        return Collections.unmodifiableList(_accounts);
+        return Collections.unmodifiableList(accounts);
     }
 
     public double getDebitInterestOnTheBalance() {
-        return DebitInterestOnTheBalance;
+        return debitInterestOnTheBalance;
     }
 
     public void setDebitInterestOnTheBalance(double debitInterestOnTheBalance) {
-        DebitInterestOnTheBalance = debitInterestOnTheBalance;
+        this.debitInterestOnTheBalance = debitInterestOnTheBalance;
     }
 
     public double getCommission() {
-        return Commission;
+        return commission;
     }
 
     public void setCommission(double commission) {
-        Commission = commission;
+        this.commission = commission;
     }
 
     public int getOperationLimit() {
-        return OperationLimit;
+        return operationLimit;
     }
 
     public void setOperationLimit(int operationLimit) {
-        OperationLimit = operationLimit;
+        this.operationLimit = operationLimit;
     }
 
     public int getCreditNegativeLimit() {
-        return CreditNegativeLimit;
+        return creditNegativeLimit;
     }
 
     public void setCreditNegativeLimit(int creditNegativeLimit) {
-        CreditNegativeLimit = creditNegativeLimit;
+        this.creditNegativeLimit = creditNegativeLimit;
     }
 
     public PercentAmount getDepositInterestOnTheBalance() {
-        return DepositInterestOnTheBalance;
+        return depositInterestOnTheBalance;
     }
 
     public void setDepositInterestOnTheBalance(PercentAmount depositInterestOnTheBalance) {
-        DepositInterestOnTheBalance = depositInterestOnTheBalance;
+        this.depositInterestOnTheBalance = depositInterestOnTheBalance;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public banks.classes.bank.BankParametersChanger getBankParametersChanger() {
-        return BankParametersChanger;
+        return bankParametersChanger;
     }
 }

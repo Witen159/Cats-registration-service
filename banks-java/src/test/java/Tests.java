@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Tests {
-    private CentralBank _centralBank;
-    private ClientDirector _clientDirector;
-    private ClientBuilder _clientBuilder;
-    private LocalDateTime _startTime;
+    private CentralBank centralBank;
+    private ClientDirector clientDirector;
+    private ClientBuilder clientBuilder;
+    private LocalDateTime startTime;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -31,19 +31,19 @@ public class Tests {
     @Before
     public void setup()
     {
-        _startTime = LocalDateTime.of(2022, 1, 1, 1, 1);
-        _centralBank = CentralBank.getInstance(_startTime);
-        _clientDirector = new ClientDirector();
-        _clientBuilder = new ClientBuilder();
-        _clientDirector.setBuilder(_clientBuilder);
+        startTime = LocalDateTime.of(2022, 1, 1, 1, 1);
+        centralBank = CentralBank.getInstance(startTime);
+        clientDirector = new ClientDirector();
+        clientBuilder = new ClientBuilder();
+        clientDirector.setBuilder(clientBuilder);
     }
 
     @Test
     public void operationLimitAndTransactionCancelTest() throws BankException {
-        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client ivan = _clientBuilder.getClient();
-        _clientDirector.buildClientWithAddress("Denis", "Denisov", "alaska");
-        Client denis = _clientBuilder.getClient();
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client ivan = clientBuilder.getClient();
+        clientDirector.buildClientWithAddress("Denis", "Denisov", "alaska");
+        Client denis = clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -55,7 +55,7 @@ public class Tests {
 
         var percentAmount = new PercentAmount(a, b);
 
-        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        Bank bank = centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
         bank.registerNewClient(ivan);
         bank.registerNewClient(denis);
 
@@ -66,7 +66,7 @@ public class Tests {
         Assert.assertEquals(denisDebit.getMoney(), 180000, 0);
         Assert.assertEquals(ivanDebit.getMoney(), 45000, 0);
 
-        _centralBank.cancelOperation(transaction);
+        centralBank.cancelOperation(transaction);
         Assert.assertEquals(denisDebit.getMoney(), 150000, 0);
         Assert.assertEquals(ivanDebit.getMoney(), 75000, 0);
 
@@ -78,8 +78,8 @@ public class Tests {
 
     @Test
     public void runTimeTest() throws BankException {
-        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client client = _clientBuilder.getClient();
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client client = clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -90,25 +90,25 @@ public class Tests {
         b.add(3.0);
 
         var percentAmount = new PercentAmount(a, b);
-        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        Bank bank = centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
         bank.registerNewClient(client);
 
         AccountTemplate debit = bank.addDebitAccount(client, 40000);
-        AccountTemplate deposit = bank.addDepositAccount(client, 40000, _centralBank.getCurrentTime().plusDays(40));
+        AccountTemplate deposit = bank.addDepositAccount(client, 40000, centralBank.getCurrentTime().plusDays(40));
         AccountTemplate credit = bank.addCreditAccount(client, 40000);
 
         // В конце месяца на дебетовый и депозитный упали проценты
-        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(31));
+        centralBank.newDate(centralBank.getCurrentTime().plusDays(31));
         Assert.assertEquals(debit.getMoney(), 40101.92, 0);
         Assert.assertEquals(deposit.getMoney(), 40033.97, 0);
 
         // Депозитный счет закрылся, оставшийся остаток на процент зачислился на счет. Дебетовый не изменился
-        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(10));
+        centralBank.newDate(centralBank.getCurrentTime().plusDays(10));
         Assert.assertEquals(debit.getMoney(), 40101.92, 0);
         Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
 
         // Прошел еще месяц. Депозитный счет не изменился (закрыт), дебетовый обновился
-        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(20));
+        centralBank.newDate(centralBank.getCurrentTime().plusDays(20));
         Assert.assertEquals(debit.getMoney(), 40194.21, 0);
         Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
 
@@ -117,18 +117,18 @@ public class Tests {
 
         // Кредитный счет ушел в минус, снималась комиссия
         bank.withdrawal(credit, 41000);
-        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(5));
+        centralBank.newDate(centralBank.getCurrentTime().plusDays(5));
         Assert.assertEquals(credit.getMoney(), -6000, 0);
 
         // Баланс на кредитном счете упал ниже кредитного лимита
         thrown.expect(BankException.class);
-        _centralBank.newDate(_centralBank.getCurrentTime().plusDays(5));
+        centralBank.newDate(centralBank.getCurrentTime().plusDays(5));
     }
 
     @Test
     public void notificationTest() throws BankException {
-        _clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
-        Client client = _clientBuilder.getClient();
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+        Client client = clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
         a.add(50000);
@@ -139,7 +139,7 @@ public class Tests {
         b.add(3.0);
 
         var percentAmount = new PercentAmount(a, b);
-        Bank bank = _centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
+        Bank bank = centralBank.registerNewBank("Тинькофф", 10000, 10000, percentAmount, 3, 1000);
         bank.registerNewClient(client);
 
         bank.addObserver(client);
