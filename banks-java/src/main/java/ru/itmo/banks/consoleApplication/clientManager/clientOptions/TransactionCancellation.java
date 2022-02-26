@@ -4,7 +4,6 @@ import ru.itmo.banks.entity.CentralBank;
 import ru.itmo.banks.entity.account.AbstractAccount;
 import ru.itmo.banks.entity.client.Client;
 import ru.itmo.banks.entity.transaction.AbstractTransaction;
-import ru.itmo.banks.tools.BankException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

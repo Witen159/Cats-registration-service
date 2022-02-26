@@ -10,11 +10,11 @@ public class PercentAmount {
     private ArrayList<Integer> moneyBorders;
     private ArrayList<Double> percents;
 
-    public PercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents)  {
+    public PercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) {
         setup(moneyBorders, percents);
     }
 
-    public void changePercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents)  {
+    public void changePercentAmount(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) {
         setup(moneyBorders, percents);
     }
 
@@ -27,7 +27,7 @@ public class PercentAmount {
         return percents.get(percents.size() - 1);
     }
 
-    private void setup(ArrayList<Integer> moneyBorders, ArrayList<Double> percents)  {
+    private void setup(ArrayList<Integer> moneyBorders, ArrayList<Double> percents) {
         if (moneyBorders.size() + 1 != percents.size())
             throw new BankException("Incorrect money borders and percents match");
         this.moneyBorders = moneyBorders;

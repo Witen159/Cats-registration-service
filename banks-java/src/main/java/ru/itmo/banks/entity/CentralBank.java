@@ -27,7 +27,7 @@ public class CentralBank {
         return instance;
     }
 
-    public Bank registerNewBank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission)  {
+    public Bank registerNewBank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission) {
         var newBank = new Bank(name, operationLimit, creditNegativeLimit, depositInterestOnTheBalance, debitInterestOnTheBalance, commission, currentTime);
         banks.add(newBank);
         return newBank;
@@ -37,7 +37,7 @@ public class CentralBank {
         return instance.currentTime;
     }
 
-    public void newDate(LocalDateTime newDate)  {
+    public void newDate(LocalDateTime newDate) {
         if (Duration.between(currentTime, newDate).toDays() < 1)
             throw new BankException("New date should be at least next day");
         instance.currentTime = newDate;
@@ -51,11 +51,11 @@ public class CentralBank {
         return null;
     }
 
-    public AbstractTransaction cancelOperation(AbstractTransaction transaction)  {
+    public AbstractTransaction cancelOperation(AbstractTransaction transaction) {
         return new CancelTransaction(transaction);
     }
 
-    private void paymentOperation()  {
+    private void paymentOperation() {
         for (Bank bank : banks) {
             bank.paymentOperation(currentTime);
         }

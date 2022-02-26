@@ -1,7 +1,6 @@
 package ru.itmo.banks.consoleApplication.bankManager.bankOptions;
 
 import ru.itmo.banks.entity.CentralBank;
-import ru.itmo.banks.tools.BankException;
 
 import java.io.IOException;
 import java.time.Duration;

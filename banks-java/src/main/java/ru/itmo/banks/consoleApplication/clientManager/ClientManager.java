@@ -1,11 +1,10 @@
 package ru.itmo.banks.consoleApplication.clientManager;
 
+import ru.itmo.banks.consoleApplication.clientManager.clientOptions.*;
 import ru.itmo.banks.entity.client.Client;
 import ru.itmo.banks.entity.client.ClientBuilderImpl;
 import ru.itmo.banks.entity.client.ClientDirector;
-import ru.itmo.banks.consoleApplication.clientManager.clientOptions.*;
 import ru.itmo.banks.tools.BankException;
-import ru.itmo.banks.consoleApplication.clientManager.clientOptions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;

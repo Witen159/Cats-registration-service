@@ -1,7 +1,5 @@
 package ru.itmo.banks.entity.client;
 
-import ru.itmo.banks.tools.BankException;
-
 public class ClientBuilderImpl implements ClientBuilder {
     private Client client = new Client();
 
@@ -30,7 +28,7 @@ public class ClientBuilderImpl implements ClientBuilder {
         this.client.setAddress(address);
     }
 
-    public void buildPassport(int passportNumber)  {
+    public void buildPassport(int passportNumber) {
         this.client.setPassport(passportNumber);
     }
 

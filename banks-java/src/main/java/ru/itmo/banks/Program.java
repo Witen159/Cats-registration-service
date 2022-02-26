@@ -6,7 +6,7 @@ import ru.itmo.banks.tools.BankException;
 import java.io.IOException;
 
 public class Program {
-    public static void main(String []args) throws BankException, IOException {
+    public static void main(String[] args) throws BankException, IOException {
         new ConsoleApp();
     }
 }

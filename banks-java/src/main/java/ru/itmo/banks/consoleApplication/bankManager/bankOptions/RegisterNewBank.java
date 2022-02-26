@@ -2,7 +2,6 @@ package ru.itmo.banks.consoleApplication.bankManager.bankOptions;
 
 import ru.itmo.banks.entity.CentralBank;
 import ru.itmo.banks.entity.bank.PercentAmount;
-import ru.itmo.banks.tools.BankException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

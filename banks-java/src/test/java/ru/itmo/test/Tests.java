@@ -1,5 +1,10 @@
 package ru.itmo.test;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import ru.itmo.banks.entity.CentralBank;
 import ru.itmo.banks.entity.account.AbstractAccount;
 import ru.itmo.banks.entity.bank.Bank;
@@ -12,27 +17,20 @@ import ru.itmo.banks.entity.observer.notification.CreditLimitNotification;
 import ru.itmo.banks.entity.observer.notification.OperationLimitNotification;
 import ru.itmo.banks.entity.transaction.AbstractTransaction;
 import ru.itmo.banks.tools.BankException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Tests {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     private CentralBank centralBank;
     private ClientDirector clientDirector;
     private ClientBuilderImpl clientBuilder;
     private LocalDateTime startTime;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
-    public void setup()
-    {
+    public void setup() {
         startTime = LocalDateTime.of(2022, 1, 1, 1, 1);
         centralBank = CentralBank.getInstance(startTime);
         clientDirector = new ClientDirector();
@@ -41,8 +39,8 @@ public class Tests {
     }
 
     @Test
-    public void operationLimitAndTransactionCancelTest() throws BankException {
-        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+    public void operationLimitAndTransactionCancelTest() {
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345, "alaska");
         Client ivan = clientBuilder.getClient();
         clientDirector.buildClientWithAddress("Denis", "Denisov", "alaska");
         Client denis = clientBuilder.getClient();
@@ -79,8 +77,8 @@ public class Tests {
     }
 
     @Test
-    public void runTimeTest() throws BankException {
-        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+    public void runTimeTest() {
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345, "alaska");
         Client client = clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();
@@ -129,8 +127,8 @@ public class Tests {
     }
 
     @Test
-    public void notificationTest() throws BankException {
-        clientDirector.buildFullClient("Ivan", "Ivanov", 12345 ,"alaska");
+    public void notificationTest() {
+        clientDirector.buildFullClient("Ivan", "Ivanov", 12345, "alaska");
         Client client = clientBuilder.getClient();
 
         var a = new ArrayList<Integer>();

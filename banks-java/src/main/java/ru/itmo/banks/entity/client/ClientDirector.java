@@ -1,7 +1,5 @@
 package ru.itmo.banks.entity.client;
 
-import ru.itmo.banks.tools.BankException;
-
 public class ClientDirector {
     private static int clientId = 1;
     private ClientBuilder builder;
@@ -19,7 +17,7 @@ public class ClientDirector {
         builder.buildVerification();
     }
 
-    public void buildClientWithPassport(String name, String surname, int passportNumber)  {
+    public void buildClientWithPassport(String name, String surname, int passportNumber) {
         builder.reset();
         builder.buildName(name);
         builder.buildSurname(surname);
@@ -39,7 +37,7 @@ public class ClientDirector {
         builder.buildVerification();
     }
 
-    public void buildFullClient(String name, String surname, int passportNumber, String address)  {
+    public void buildFullClient(String name, String surname, int passportNumber, String address) {
         builder.reset();
         builder.buildName(name);
         builder.buildSurname(surname);

@@ -76,12 +76,12 @@ public class Bank implements Observable {
         return new TransferTransaction(sender, recipient, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction refill(AbstractAccount account, double amountOfMoney)  {
+    public AbstractTransaction refill(AbstractAccount account, double amountOfMoney) {
         accountCheck(account);
         return new RefillTransaction(null, account, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction withdrawal(AbstractAccount account, double amountOfMoney)  {
+    public AbstractTransaction withdrawal(AbstractAccount account, double amountOfMoney) {
         accountCheck(account);
         operationLimitCheck(account, amountOfMoney);
         return new WithdrawalTransaction(account, null, amountOfMoney, currentTime);
@@ -98,7 +98,7 @@ public class Bank implements Observable {
         return null;
     }
 
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment)  {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) {
         currentTime = timeOfTheNewPayment;
         for (AbstractAccount account : accounts) {
             account.paymentOperation(currentTime);
@@ -119,17 +119,17 @@ public class Bank implements Observable {
         }
     }
 
-    private void operationLimitCheck(AbstractAccount account, double amountOfMoney)  {
+    private void operationLimitCheck(AbstractAccount account, double amountOfMoney) {
         if (!account.isVerification() && amountOfMoney > getOperationLimit())
             throw new BankException("Unconfirmed accounts are prohibited from operations above" + getOperationLimit());
     }
 
-    private void clientRegisterCheck(Client client)  {
+    private void clientRegisterCheck(Client client) {
         if (!clients.contains(client))
             throw new BankException("Client should be registered in the bank");
     }
 
-    private void accountCheck(AbstractAccount account)  {
+    private void accountCheck(AbstractAccount account) {
         if (!accounts.contains(account))
             throw new BankException("The account does not belong to this bank");
     }
