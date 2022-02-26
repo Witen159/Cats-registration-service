@@ -34,7 +34,7 @@ public class Bank implements Observable {
     private int creditNegativeLimit;
     private PercentAmount depositInterestOnTheBalance;
 
-    public Bank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission, LocalDateTime currentTime) throws BankException {
+    public Bank(String name, int operationLimit, int creditNegativeLimit, PercentAmount depositInterestOnTheBalance, double debitInterestOnTheBalance, double commission, LocalDateTime currentTime) {
         this.name = name;
         id = currentId++;
         bankParametersChanger = new BankParametersChanger(this);
@@ -46,7 +46,7 @@ public class Bank implements Observable {
         this.currentTime = currentTime;
     }
 
-    public AbstractAccount addDebitAccount(Client client, double startMoney) throws BankException {
+    public AbstractAccount addDebitAccount(Client client, double startMoney) {
         clientRegisterCheck(client);
         var debitAccount = new DebitAccount(startMoney, currentTime, getDebitInterestOnTheBalance(), client.isVerification());
         client.addAccount(debitAccount);
@@ -54,7 +54,7 @@ public class Bank implements Observable {
         return debitAccount;
     }
 
-    public AbstractAccount addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) throws BankException {
+    public AbstractAccount addDepositAccount(Client client, double startMoney, LocalDateTime depositCloseTime) {
         clientRegisterCheck(client);
         var depositAccount = new DepositAccount(startMoney, currentTime, getDepositInterestOnTheBalance().getCurrentPercent(startMoney), depositCloseTime, client.isVerification());
         client.addAccount(depositAccount);
@@ -62,7 +62,7 @@ public class Bank implements Observable {
         return depositAccount;
     }
 
-    public AbstractAccount addCreditAccount(Client client, double startMoney) throws BankException {
+    public AbstractAccount addCreditAccount(Client client, double startMoney) {
         clientRegisterCheck(client);
         var creditAccount = new CreditAccount(startMoney, currentTime, getCommission(), getCreditNegativeLimit(), client.isVerification());
         client.addAccount(creditAccount);
@@ -70,18 +70,18 @@ public class Bank implements Observable {
         return creditAccount;
     }
 
-    public AbstractTransaction transfer(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney) throws BankException {
+    public AbstractTransaction transfer(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney) {
         accountCheck(sender);
         operationLimitCheck(sender, amountOfMoney);
         return new TransferTransaction(sender, recipient, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction refill(AbstractAccount account, double amountOfMoney) throws BankException {
+    public AbstractTransaction refill(AbstractAccount account, double amountOfMoney)  {
         accountCheck(account);
         return new RefillTransaction(null, account, amountOfMoney, currentTime);
     }
 
-    public AbstractTransaction withdrawal(AbstractAccount account, double amountOfMoney) throws BankException {
+    public AbstractTransaction withdrawal(AbstractAccount account, double amountOfMoney)  {
         accountCheck(account);
         operationLimitCheck(account, amountOfMoney);
         return new WithdrawalTransaction(account, null, amountOfMoney, currentTime);
@@ -98,7 +98,7 @@ public class Bank implements Observable {
         return null;
     }
 
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment)  {
         currentTime = timeOfTheNewPayment;
         for (AbstractAccount account : accounts) {
             account.paymentOperation(currentTime);
@@ -119,17 +119,17 @@ public class Bank implements Observable {
         }
     }
 
-    private void operationLimitCheck(AbstractAccount account, double amountOfMoney) throws BankException {
+    private void operationLimitCheck(AbstractAccount account, double amountOfMoney)  {
         if (!account.isVerification() && amountOfMoney > getOperationLimit())
             throw new BankException("Unconfirmed accounts are prohibited from operations above" + getOperationLimit());
     }
 
-    private void clientRegisterCheck(Client client) throws BankException {
+    private void clientRegisterCheck(Client client)  {
         if (!clients.contains(client))
             throw new BankException("Client should be registered in the bank");
     }
 
-    private void accountCheck(AbstractAccount account) throws BankException {
+    private void accountCheck(AbstractAccount account)  {
         if (!accounts.contains(account))
             throw new BankException("The account does not belong to this bank");
     }

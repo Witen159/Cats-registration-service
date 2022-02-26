@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class RewindTime implements BankOption {
-    public void option() throws IOException, BankException {
+    public void option() throws IOException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter the date you want to wait until (year, month, day)");

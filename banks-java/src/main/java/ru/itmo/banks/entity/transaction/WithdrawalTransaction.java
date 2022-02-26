@@ -6,7 +6,7 @@ import ru.itmo.banks.tools.BankException;
 import java.time.LocalDateTime;
 
 public class WithdrawalTransaction extends AbstractTransaction {
-    public WithdrawalTransaction(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney, LocalDateTime currentTime) throws BankException {
+    public WithdrawalTransaction(AbstractAccount sender, AbstractAccount recipient, double amountOfMoney, LocalDateTime currentTime)  {
         super(sender, recipient, amountOfMoney, currentTime);
         getSender().reduceMoney(amountOfMoney);
         getSender().addTransaction(this);

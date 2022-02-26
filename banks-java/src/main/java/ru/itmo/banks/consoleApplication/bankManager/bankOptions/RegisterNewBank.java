@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RegisterNewBank implements BankOption {
-    public void option() throws BankException {
+    public void option() {
         Scanner console = new Scanner(System.in);
 
         var centralBank = CentralBank.getInstance(LocalDateTime.now());

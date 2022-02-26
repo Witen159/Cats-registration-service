@@ -30,7 +30,7 @@ public class ClientBuilderImpl implements ClientBuilder {
         this.client.setAddress(address);
     }
 
-    public void buildPassport(int passportNumber) throws BankException {
+    public void buildPassport(int passportNumber)  {
         this.client.setPassport(passportNumber);
     }
 

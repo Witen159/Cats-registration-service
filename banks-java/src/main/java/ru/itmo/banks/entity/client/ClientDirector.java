@@ -19,7 +19,7 @@ public class ClientDirector {
         builder.buildVerification();
     }
 
-    public void buildClientWithPassport(String name, String surname, int passportNumber) throws BankException {
+    public void buildClientWithPassport(String name, String surname, int passportNumber)  {
         builder.reset();
         builder.buildName(name);
         builder.buildSurname(surname);
@@ -39,7 +39,7 @@ public class ClientDirector {
         builder.buildVerification();
     }
 
-    public void buildFullClient(String name, String surname, int passportNumber, String address) throws BankException {
+    public void buildFullClient(String name, String surname, int passportNumber, String address)  {
         builder.reset();
         builder.buildName(name);
         builder.buildSurname(surname);

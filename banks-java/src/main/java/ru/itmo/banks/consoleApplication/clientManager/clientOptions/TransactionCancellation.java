@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class TransactionCancellation implements ClientOption {
-    public void option(Client currentClient) throws IOException, BankException {
+    public void option(Client currentClient) throws IOException {
         Scanner console = new Scanner(System.in);
         var centralBank = CentralBank.getInstance(LocalDateTime.now());
         System.out.println("Enter id of account and transaction you want to cancel");
