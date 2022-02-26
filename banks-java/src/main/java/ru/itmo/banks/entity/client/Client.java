@@ -31,12 +31,7 @@ public class Client implements Observer {
         accounts.add(newAccount);
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-        verificationCheck();
-    }
-
-    public void setPassport(int passportNumber)  {
+    public void setPassport(int passportNumber) {
         if (getPassportNumber() != 0)
             throw new BankException("Passport number already added");
         this.passportNumber = passportNumber;
@@ -60,12 +55,25 @@ public class Client implements Observer {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSurname() {
         return surname;
     }
 
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+        verificationCheck();
     }
 
     public int getPassportNumber() {
@@ -76,20 +84,12 @@ public class Client implements Observer {
         return verification;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public void setVerification(boolean verification) {
         this.verification = verification;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {

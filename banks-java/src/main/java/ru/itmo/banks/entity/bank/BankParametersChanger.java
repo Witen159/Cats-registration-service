@@ -19,7 +19,7 @@ public class BankParametersChanger {
         this.bank = bank;
     }
 
-    public void changeOperationLimit(int value)  {
+    public void changeOperationLimit(int value) {
         if (value < MINIMUM_OPERATION_LIMIT)
             throw new BankException("Operation limit should be at least 10000");
         bank.setOperationLimit(value);
@@ -27,7 +27,7 @@ public class BankParametersChanger {
         bank.notifyObservers(new OperationLimitNotification());
     }
 
-    public void changeCreditNegativeLimit(int value)  {
+    public void changeCreditNegativeLimit(int value) {
         if (value < MINIMUM_CREDIT_LIMIT)
             throw new BankException("Credit Negative Limit should be at least 10000");
         bank.setCreditNegativeLimit(value);
@@ -39,7 +39,7 @@ public class BankParametersChanger {
         bank.notifyObservers(new CreditLimitNotification());
     }
 
-    public void changeCommission(double value)  {
+    public void changeCommission(double value) {
         if (value < MINIMUM_COMMISSION)
             throw new BankException("Commission should be at least 10000");
         bank.setCommission(value);
@@ -51,7 +51,7 @@ public class BankParametersChanger {
         bank.notifyObservers(new CommissionNotification());
     }
 
-    public void changeDebitInterestOnTheBalance(double value)  {
+    public void changeDebitInterestOnTheBalance(double value) {
         if (value <= 0 || value >= 100) {
             throw new BankException("Percents must be greater than 0 and less than 100");
         }

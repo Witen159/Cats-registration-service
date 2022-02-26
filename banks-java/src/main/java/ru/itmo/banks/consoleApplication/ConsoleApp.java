@@ -1,9 +1,8 @@
 package ru.itmo.banks.consoleApplication;
 
-import ru.itmo.banks.entity.CentralBank;
 import ru.itmo.banks.consoleApplication.bankManager.CentralBankManager;
 import ru.itmo.banks.consoleApplication.clientManager.ClientManager;
-import ru.itmo.banks.tools.BankException;
+import ru.itmo.banks.entity.CentralBank;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

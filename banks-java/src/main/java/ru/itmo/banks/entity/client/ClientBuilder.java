@@ -1,7 +1,5 @@
 package ru.itmo.banks.entity.client;
 
-import ru.itmo.banks.tools.BankException;
-
 public interface ClientBuilder {
     void reset();
 

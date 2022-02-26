@@ -1,10 +1,9 @@
 package ru.itmo.banks.consoleApplication.bankManager;
 
-import ru.itmo.banks.consoleApplication.bankManager.bankOptions.BanksList;
 import ru.itmo.banks.consoleApplication.bankManager.bankOptions.BankOption;
+import ru.itmo.banks.consoleApplication.bankManager.bankOptions.BanksList;
 import ru.itmo.banks.consoleApplication.bankManager.bankOptions.RegisterNewBank;
 import ru.itmo.banks.consoleApplication.bankManager.bankOptions.RewindTime;
-import ru.itmo.banks.tools.BankException;
 
 import java.io.IOException;
 import java.util.Scanner;
