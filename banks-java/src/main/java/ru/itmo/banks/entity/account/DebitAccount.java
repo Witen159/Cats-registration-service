@@ -15,14 +15,14 @@ public class DebitAccount extends AbstractAccount {
     }
 
     @Override
-    public void reduceMoney(double amountOfMoney) throws BankException {
+    public void reduceMoney(double amountOfMoney) {
         if (amountOfMoney > money)
             throw new BankException("Debit account cannot go into negative territory");
         super.reduceMoney(amountOfMoney);
     }
 
     @Override
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) {
         var daysControlSystem = new DaysControlSystem();
         long differenceInDays = Duration.between(currentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {

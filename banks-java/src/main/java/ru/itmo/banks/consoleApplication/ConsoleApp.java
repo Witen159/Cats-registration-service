@@ -15,14 +15,14 @@ public class ConsoleApp {
     private final CentralBankManager centralBankManager = new CentralBankManager();
     private final Scanner console = new Scanner(System.in);
 
-    public ConsoleApp() throws BankException, IOException {
+    public ConsoleApp() throws IOException {
         System.out.println("Please use command numbers is our application");
         System.out.println();
 
         startMenu();
     }
 
-    public void startMenu() throws BankException, IOException {
+    public void startMenu() throws IOException {
         System.out.println("Choose who you are:");
         System.out.println("1. Bank manager");
         System.out.println("2. Client");

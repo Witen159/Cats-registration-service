@@ -3,7 +3,7 @@ package ru.itmo.banks.entity.transaction;
 import ru.itmo.banks.tools.BankException;
 
 public class CancelTransaction extends AbstractTransaction {
-    public CancelTransaction(AbstractTransaction transaction) throws BankException {
+    public CancelTransaction(AbstractTransaction transaction)  {
         super(transaction.getSender(), transaction.getRecipient(), transaction.getAmountOfMoney(), transaction.getTransactionTime());
 
         if (transaction instanceof CancelTransaction)

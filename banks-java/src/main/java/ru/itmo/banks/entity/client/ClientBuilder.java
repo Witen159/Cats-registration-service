@@ -13,7 +13,7 @@ public interface ClientBuilder {
 
     void buildAddress(String address);
 
-    void buildPassport(int passportNumber) throws BankException;
+    void buildPassport(int passportNumber);
 
     void buildVerification();
 

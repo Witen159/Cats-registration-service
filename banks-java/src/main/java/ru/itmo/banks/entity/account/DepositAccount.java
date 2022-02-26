@@ -11,7 +11,7 @@ public class DepositAccount extends AbstractAccount {
     private LocalDateTime depositCloseTime;
     private boolean accountIsOpen;
 
-    public DepositAccount(double startMoney, LocalDateTime currentTime, double interestOnTheBalance, LocalDateTime depositCloseTime, boolean verification) throws BankException {
+    public DepositAccount(double startMoney, LocalDateTime currentTime, double interestOnTheBalance, LocalDateTime depositCloseTime, boolean verification) {
         super(startMoney, currentTime, verification);
         if (Duration.between(currentTime, depositCloseTime).toDays() < 30)
             throw new BankException("Deposit account must be opened for at least 30 days");
@@ -21,7 +21,7 @@ public class DepositAccount extends AbstractAccount {
     }
 
     @Override
-    public void reduceMoney(double amountOfMoney) throws BankException {
+    public void reduceMoney(double amountOfMoney) {
         if (isAccountOpen())
             throw new BankException("You cannot withdraw money from the account until it is close");
         if (amountOfMoney > money)
@@ -30,7 +30,7 @@ public class DepositAccount extends AbstractAccount {
     }
 
     @Override
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) {
         var daysControlSystem = new DaysControlSystem();
         long differenceInDays = Duration.between(currentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {

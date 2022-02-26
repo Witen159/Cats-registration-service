@@ -36,7 +36,7 @@ public class Client implements Observer {
         verificationCheck();
     }
 
-    public void setPassport(int passportNumber) throws BankException {
+    public void setPassport(int passportNumber)  {
         if (getPassportNumber() != 0)
             throw new BankException("Passport number already added");
         this.passportNumber = passportNumber;

@@ -13,7 +13,7 @@ public class CentralBankManager {
     private final Scanner console = new Scanner(System.in);
     private BankOption bankOption = null;
 
-    public void bankManager() throws BankException, IOException {
+    public void bankManager() throws IOException {
         System.out.println("Menu:");
         System.out.println("1. Register new bank");
         System.out.println("2. Banks list");

@@ -16,13 +16,13 @@ public class CreditAccount extends AbstractAccount {
     }
 
     @Override
-    public void reduceMoney(double amountOfMoney) throws BankException {
+    public void reduceMoney(double amountOfMoney) {
         isWillGoOverCreditLimit(amountOfMoney);
         super.reduceMoney(amountOfMoney);
     }
 
     @Override
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) {
         long differenceInDays = Duration.between(currentTime, timeOfTheNewPayment).toDays();
         for (int days = 0; days < differenceInDays; days++) {
             if (money < 0) {
@@ -34,7 +34,7 @@ public class CreditAccount extends AbstractAccount {
         }
     }
 
-    private void isWillGoOverCreditLimit(double amountOfMoney) throws BankException {
+    private void isWillGoOverCreditLimit(double amountOfMoney) {
         if (money - amountOfMoney < -getCreditNegativeLimit())
             throw new BankException("The balance fell below the credit limit");
     }

@@ -35,7 +35,7 @@ public class AbstractAccount {
         money -= amountOfMoney;
     }
 
-    public void paymentOperation(LocalDateTime timeOfTheNewPayment) throws BankException {
+    public void paymentOperation(LocalDateTime timeOfTheNewPayment) {
     }
 
     public void addTransaction(AbstractTransaction transaction) {
@@ -51,7 +51,7 @@ public class AbstractAccount {
         verification = true;
     }
 
-    public void transactionCheck(AbstractTransaction transaction) throws BankException {
+    public void transactionCheck(AbstractTransaction transaction) {
         if (!transactionHistory.contains(transaction))
             throw new BankException("Transaction" + transaction.getId() + "does not belong to the account" + getId());
     }
