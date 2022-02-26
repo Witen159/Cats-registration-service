@@ -61,7 +61,7 @@ public class AbstractAccount {
     }
 
     public double getMoney() {
-        return Math.round(money * 100.0) / 100.0;
+        return money;
     }
 
     public void setMoney(double money) {

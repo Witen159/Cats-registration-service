@@ -14,7 +14,7 @@ public class AccountBalance implements ClientOption {
         console.nextLine();
         for (AbstractAccount account : currentClient.getAccounts()) {
             if (account.getId() == balanceAccountId)
-                System.out.println("Balance: " + account.getMoney());
+                System.out.println("Balance: " + Math.round(account.getMoney() * 100.0) / 100.0);
             break;
         }
     }

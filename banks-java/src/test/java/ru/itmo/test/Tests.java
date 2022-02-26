@@ -99,20 +99,21 @@ public class Tests {
         AbstractAccount deposit = bank.addDepositAccount(client, 40000, centralBank.getCurrentTime().plusDays(40));
         AbstractAccount credit = bank.addCreditAccount(client, 40000);
 
+
         // В конце месяца на дебетовый и депозитный упали проценты
         centralBank.newDate(centralBank.getCurrentTime().plusDays(31));
-        Assert.assertEquals(debit.getMoney(), 40101.92, 0);
-        Assert.assertEquals(deposit.getMoney(), 40033.97, 0);
+        Assert.assertEquals(Math.round(debit.getMoney() * 100.0) / 100.0, 40101.92, 0);
+        Assert.assertEquals(Math.round(deposit.getMoney() * 100.0) / 100.0, 40033.97, 0);
 
         // Депозитный счет закрылся, оставшийся остаток на процент зачислился на счет. Дебетовый не изменился
         centralBank.newDate(centralBank.getCurrentTime().plusDays(10));
-        Assert.assertEquals(debit.getMoney(), 40101.92, 0);
-        Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
+        Assert.assertEquals(Math.round(debit.getMoney() * 100.0) / 100.0, 40101.92, 0);
+        Assert.assertEquals(Math.round(deposit.getMoney() * 100.0) / 100.0, 40044.94, 0);
 
         // Прошел еще месяц. Депозитный счет не изменился (закрыт), дебетовый обновился
         centralBank.newDate(centralBank.getCurrentTime().plusDays(20));
-        Assert.assertEquals(debit.getMoney(), 40194.21, 0);
-        Assert.assertEquals(deposit.getMoney(), 40044.94, 0);
+        Assert.assertEquals(Math.round(debit.getMoney() * 100.0) / 100.0, 40194.21, 0);
+        Assert.assertEquals(Math.round(deposit.getMoney() * 100.0) / 100.0, 40044.94, 0);
 
         // Кредитный счет в плюсе, комиссии не было
         Assert.assertEquals(credit.getMoney(), 40000, 0);
