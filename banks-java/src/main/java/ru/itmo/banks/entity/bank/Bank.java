@@ -21,9 +21,9 @@ import java.util.List;
 
 public class Bank implements Observable {
     private static int currentId = 1;
-    private final ArrayList<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
-    private final ArrayList<Client> clients = new ArrayList<Client>();
-    private final ArrayList<Observer> observers = new ArrayList<Observer>();
+    private final List<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
+    private final List<Client> clients = new ArrayList<Client>();
+    private final List<Observer> observers = new ArrayList<Observer>();
     private final int id;
     private final String name;
     private final BankParametersChanger bankParametersChanger;

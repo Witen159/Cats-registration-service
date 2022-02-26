@@ -11,7 +11,7 @@ import java.util.List;
 public class AbstractAccount {
     private static int currentId = 1;
     protected double money;
-    protected ArrayList<AbstractTransaction> transactionHistory = new ArrayList<AbstractTransaction>();
+    protected List<AbstractTransaction> transactionHistory = new ArrayList<AbstractTransaction>();
     protected LocalDateTime currentTime;
     protected int id;
     protected boolean verification;

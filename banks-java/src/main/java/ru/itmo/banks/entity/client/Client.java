@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Client implements Observer {
-    private final ArrayList<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
-    private final ArrayList<Notification> notifications = new ArrayList<Notification>();
+    private final List<AbstractAccount> accounts = new ArrayList<AbstractAccount>();
+    private final List<Notification> notifications = new ArrayList<Notification>();
     private String name;
     private String surname;
     private String address = null;

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CentralBank {
     private static CentralBank instance;
-    private final ArrayList<Bank> banks = new ArrayList<>();
+    private final List<Bank> banks = new ArrayList<>();
     private LocalDateTime currentTime;
 
     private CentralBank(LocalDateTime currentTime) {

@@ -8,10 +8,11 @@ import ru.itmo.banks.tools.BankException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientManager {
-    private final ArrayList<Client> clientsList = new ArrayList<Client>();
+    private final List<Client> clientsList = new ArrayList<Client>();
     private final ClientDirector clientDirector = new ClientDirector();
     private final ClientBuilderImpl clientBuilder = new ClientBuilderImpl();
     private final Scanner console = new Scanner(System.in);
