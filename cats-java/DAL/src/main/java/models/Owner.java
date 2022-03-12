@@ -1,7 +1,7 @@
 package models;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +12,15 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column (name = "birthday")
-    private Date dateOfBirth;
+    // @Column (name = "birthday")
+    private Timestamp birthday;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cat> cats;
 
     public Owner() {}
-    public Owner (String name, Date dateOfBirth) {
+    public Owner (String name, Timestamp dateOfBirth) {
         this.name = name;
-        this.dateOfBirth = dateOfBirth;
+        this.birthday = dateOfBirth;
         cats = new ArrayList<>();
     }
 
@@ -45,12 +45,12 @@ public class Owner {
         this.name = name;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Timestamp getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthday(Timestamp dateOfBirth) {
+        this.birthday = dateOfBirth;
     }
 
     public List<Cat> getCats() {

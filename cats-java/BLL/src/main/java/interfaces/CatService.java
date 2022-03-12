@@ -1,5 +1,6 @@
 package interfaces;
 
+import accessory.Color;
 import models.Cat;
 import models.Owner;
 
@@ -11,5 +12,6 @@ public interface CatService {
     public void deleteCat(Cat cat);
     public void updateCat(Cat cat);
     public List<Cat> findAllCats();
+    public List<Cat> findCatsByColor(Color color);
     public Cat findCatById(int id);
 }

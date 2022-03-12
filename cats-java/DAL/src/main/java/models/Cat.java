@@ -4,8 +4,7 @@ import accessory.Color;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 
 @Entity
 @Table (name = "cats")
@@ -14,8 +13,8 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column (name = "birthday")
-    private Date dateOfBirth;
+    // @Column (name = "birthday")
+    private Timestamp birthday;
     private String breed;
     private Color color;
     /* @OneToMany(mappedBy = "cat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -25,10 +24,10 @@ public class Cat {
     private Owner owner;
 
     public Cat() {}
-    public Cat(String name, Date dateOfBirth, String breed, Color color) {
+    public Cat(String name, Timestamp birthday, String breed, Color color) {
         this.name = name;
         this.breed = breed;
-        this.dateOfBirth = dateOfBirth;
+        this.birthday = birthday;
         this.color = color;
         // friends = new ArrayList<>();
     }
@@ -53,12 +52,12 @@ public class Cat {
         this.name = name;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Timestamp getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthday(Timestamp dateOfBirth) {
+        this.birthday = dateOfBirth;
     }
 
     public String getBreed() {

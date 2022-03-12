@@ -13,4 +13,5 @@ public interface OwnerService {
     public void updateOwner(Owner owner);
     public List<Owner> findAllOwners();
     public Cat findCatById(int id);
+    public List<Cat> getAllOwnersCats (int id);
 }

@@ -40,4 +40,9 @@ public class OwnerServiceImpl implements OwnerService {
     public Cat findCatById(int id) {
         return ownerDAO.findCatById(id);
     }
+
+    @Override
+    public List<Cat> getAllOwnersCats(int id) {
+        return findOwner(id).getCats();
+    }
 }
