@@ -15,6 +15,7 @@ public class Cat {
     private String name;
     private Timestamp birthday;
     private String breed;
+    @Enumerated(value = EnumType.STRING)
     private Color color;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
