@@ -82,5 +82,5 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .idea
-cats-java/BLL/target
-cats-java/DAL/target
+kotiki-java/BLL/target
+kotiki-java/DAL/target
