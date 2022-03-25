@@ -1,6 +1,5 @@
 package ru.itmo.tests;
 
-import Interfaces.CatDAO;
 import accessory.Color;
 import interfaces.CatService;
 import interfaces.OwnerService;
@@ -12,10 +11,7 @@ import org.junit.Test;
 import services.CatServiceImpl;
 import services.OwnerServiceImpl;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -36,7 +32,7 @@ public class DBTests {
     @Test
     public void findByIdTest() {
         Owner owner = new Owner("Den", new Timestamp(1000000));
-        Cat cat = new Cat("Shu", new Timestamp(1000000), "breed", Color.Black);
+        Cat cat = new Cat("Shu", new Timestamp(1000000), "breed", Color.BLACK);
         owner.addCat(cat);
 
         when(ownerService.findOwner(1)).thenReturn(owner);
@@ -49,7 +45,7 @@ public class DBTests {
     @Test
     public void getCatFromOwner_GetOwnerFromCatTest() {
         Owner owner = new Owner("Den", new Timestamp(1000000));
-        Cat cat = new Cat("Shu", new Timestamp(1000000), "breed", Color.Black);
+        Cat cat = new Cat("Shu", new Timestamp(1000000), "breed", Color.BLACK);
         owner.addCat(cat);
         when(ownerService.findCatById(1)).thenReturn(cat);
         assertEquals(ownerService.findCatById(1).getOwner().getName(), "Den");

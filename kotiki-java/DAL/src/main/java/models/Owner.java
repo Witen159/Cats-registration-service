@@ -12,7 +12,6 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    // @Column (name = "birthday")
     private Timestamp birthday;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cat> cats;

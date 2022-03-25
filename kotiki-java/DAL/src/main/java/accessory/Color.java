@@ -1,8 +1,8 @@
 package accessory;
 
 public enum Color {
-    Red,
-    Black,
-    Brown,
-    White
+    RED,
+    BLACK,
+    BROWN,
+    WHITE
 }
