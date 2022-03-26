@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>DAL</module>
-        <module>BLL</module>
+        <module>dal</module>
+        <module>bll</module>
     </modules>
 
     <properties>
