@@ -11,8 +11,13 @@ public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "birthday")
     private Timestamp birthday;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cat> cats;
 
@@ -29,7 +34,8 @@ public class Owner {
     }
 
     public void removeCat(Cat cat) {
-        cats.remove(cat);
+        if (cat != null && cats.contains(cat))
+            cats.remove(cat);
     }
 
     public int getId() {

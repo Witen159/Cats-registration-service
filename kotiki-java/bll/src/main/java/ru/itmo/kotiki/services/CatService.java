@@ -1,42 +1,44 @@
 package ru.itmo.kotiki.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.Interfaces.CatDAO;
 import ru.itmo.kotiki.accessory.Color;
-import ru.itmo.kotiki.interfaces.CatService;
+import ru.itmo.kotiki.interfaces.ICatService;
 import ru.itmo.kotiki.models.Cat;
-import ru.itmo.kotiki.repository.CatDAOImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatServiceImpl implements CatService {
-    private CatDAO catDAO = new CatDAOImpl();
-    @Override
-    public Cat findCat(int id) {
-        return catDAO.findById(id);
+@Service
+@ComponentScan(basePackages = {"ru.itmo.kotiki.Interfaces"})
+public class CatService implements ICatService {
+    @Qualifier("CatDAO")
+    private final CatDAO catDAO;
+
+    @Autowired
+    public CatService(CatDAO catDAO) {
+        this.catDAO = catDAO;
     }
 
-    @Override
+    public Cat findCat(int id) {
+        return catDAO.getById(id);
+    }
+
     public void saveCat(Cat cat) {
         catDAO.save(cat);
     }
 
-    @Override
     public void deleteCat(Cat cat) {
         catDAO.delete(cat);
     }
 
-    @Override
-    public void updateCat(Cat cat) {
-        catDAO.update(cat);
-    }
-
-    @Override
     public List<Cat> findAllCats() {
         return catDAO.findAll();
     }
 
-    @Override
     public List<Cat> findCatsByColor(Color color) {
         List<Cat> coloredCats = new ArrayList<>();
         for (Cat cat : findAllCats()) {
@@ -44,10 +46,5 @@ public class CatServiceImpl implements CatService {
                 coloredCats.add(cat);
         }
         return coloredCats;
-    }
-
-    @Override
-    public Cat findCatById(int id) {
-        return catDAO.findFriendById(id);
     }
 }

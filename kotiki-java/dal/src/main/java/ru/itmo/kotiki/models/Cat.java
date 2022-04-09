@@ -3,6 +3,7 @@ package ru.itmo.kotiki.models;
 import ru.itmo.kotiki.accessory.Color;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,11 +12,20 @@ public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "birthday")
     private Timestamp birthday;
+
+    @Column(name = "breed")
     private String breed;
+
+    @Column(name = "color")
     @Enumerated(value = EnumType.STRING)
     private Color color;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
