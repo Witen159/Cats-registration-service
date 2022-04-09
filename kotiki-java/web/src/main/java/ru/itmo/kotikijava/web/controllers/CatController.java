@@ -28,35 +28,31 @@ public class CatController {
         this.catService = catService;
     }
 
-    @GetMapping("/get/cat/{id}")
+    @GetMapping("/getCat/{id}")
     public WebCat getCatById(@PathVariable Integer id) {
         return converter.convertToWebCat(catService.findCat(id));
     }
 
-    @GetMapping("/get/cats")
+    @GetMapping("/getCats")
     public List<WebCat> getAllCats() {
         return converter.convertListOfCats(catService.findAllCats());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCat(@RequestBody WebCat webCat) {
+    public void createCat(@RequestBody WebCat webCat) {
         Cat cat = converter.convertToCat(webCat);
         catService.saveCat(cat);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/put")
-    public ResponseEntity<?> updateCat(@RequestBody WebCat webCat) {
+    public void updateCat(@RequestBody WebCat webCat) {
         Cat cat = converter.convertToCat(webCat);
         catService.saveCat(cat);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCat(@RequestBody WebCat webCat) {
-        Cat cat = converter.convertToCat(webCat);
-        catService.deleteCat(cat);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public void deleteCat(@PathVariable int id) {
+        catService.deleteCat(catService.findCat(id));
     }
 }
 

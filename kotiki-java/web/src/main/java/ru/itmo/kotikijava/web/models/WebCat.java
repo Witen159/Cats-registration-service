@@ -8,8 +8,7 @@ public class WebCat {
     private final Timestamp birthday;
     private final String breed;
     private final Color color;
-
-    public WebCat(){}
+    
     public WebCat(String name, Timestamp birthday, String breed, Color color) {
         this.name = name;
         this.breed = breed;

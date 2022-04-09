@@ -30,33 +30,29 @@ public class OwnerController {
         this.ownerService = ownerService;
     }
 
-    @GetMapping("/get/owner{id}")
+    @GetMapping("/getOwner/{id}")
     public WebOwner getOwnerById(@PathVariable int id) {
         return converter.convertToWebOwner(ownerService.findOwner(id));
     }
 
-    @GetMapping("/get/owners")
+    @GetMapping("/getOwners")
     public List<WebOwner> getAllOwners() {
         return converter.convertListOfOwners(ownerService.findAllOwners());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createOwner (@RequestBody WebOwner webOwner) {
+    public void createOwner (@RequestBody WebOwner webOwner) {
         ownerService.saveOwner(converter.convertToOwner(webOwner));
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/put")
-    public ResponseEntity<?> updateOwner(@RequestBody WebOwner webOwner) {
+    public void updateOwner(@RequestBody WebOwner webOwner) {
         Owner owner = converter.convertToOwner(webOwner);
         ownerService.saveOwner(owner);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteOwner(@RequestBody WebOwner webOwner) {
-        Owner owner = converter.convertToOwner(webOwner);
-        ownerService.deleteOwner(owner);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public void deleteOwner(@PathVariable int id) {
+        ownerService.deleteOwner(ownerService.findOwner(id));
     }
 }
