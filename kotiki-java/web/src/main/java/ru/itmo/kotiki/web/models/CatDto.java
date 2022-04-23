@@ -1,15 +1,15 @@
-package ru.itmo.kotikijava.web.models;
+package ru.itmo.kotiki.web.models;
 
 import ru.itmo.kotiki.accessory.Color;
 import java.sql.Timestamp;
 
-public class WebCat {
+public class CatDto {
     private final String name;
     private final Timestamp birthday;
     private final String breed;
     private final Color color;
 
-    public WebCat(String name, Timestamp birthday, String breed, Color color) {
+    public CatDto(String name, Timestamp birthday, String breed, Color color) {
         this.name = name;
         this.breed = breed;
         this.birthday = birthday;

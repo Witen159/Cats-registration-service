@@ -1,4 +1,4 @@
-package ru.itmo.kotikijava.web;
+package ru.itmo.kotiki.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

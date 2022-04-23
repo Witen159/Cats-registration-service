@@ -1,11 +1,11 @@
-package ru.itmo.kotikijava.web;
+package ru.itmo.kotiki.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.itmo.kotiki.models.Cat;
 import ru.itmo.kotiki.models.Owner;
-import ru.itmo.kotikijava.web.models.WebCat;
-import ru.itmo.kotikijava.web.models.WebOwner;
+import ru.itmo.kotiki.web.models.CatDto;
+import ru.itmo.kotiki.web.models.OwnerDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,32 +14,32 @@ import java.util.List;
 public class Converter {
     @Autowired
     public Converter() {}
-    public Cat convertToCat (WebCat webCat) {
+    public Cat convertToCat (CatDto webCat) {
         return new Cat(webCat.getName(), webCat.getBirthday(), webCat.getBreed(), webCat.getColor());
     }
 
-    public WebCat convertToWebCat(Cat cat) {
-        return new WebCat(cat.getName(), cat.getBirthday(), cat.getBreed(), cat.getColor());
+    public CatDto convertToWebCat(Cat cat) {
+        return new CatDto(cat.getName(), cat.getBirthday(), cat.getBreed(), cat.getColor());
     }
 
-    public List<WebCat> convertListOfCats(List<Cat> cats) {
-        List<WebCat> webCats = new ArrayList<>();
+    public List<CatDto> convertListOfCats(List<Cat> cats) {
+        List<CatDto> webCats = new ArrayList<>();
         for (Cat cat : cats) {
             webCats.add(convertToWebCat(cat));
         }
         return webCats;
     }
 
-    public Owner convertToOwner (WebOwner webOwner) {
+    public Owner convertToOwner (OwnerDto webOwner) {
         return new Owner(webOwner.getName(), webOwner.getBirthday());
     }
 
-    public WebOwner convertToWebOwner (Owner owner) {
-        return new WebOwner(owner.getName(), owner.getBirthday());
+    public OwnerDto convertToWebOwner (Owner owner) {
+        return new OwnerDto(owner.getName(), owner.getBirthday());
     }
 
-    public List<WebOwner> convertListOfOwners(List<Owner> owners) {
-        List<WebOwner> webOwners = new ArrayList<>();
+    public List<OwnerDto> convertListOfOwners(List<Owner> owners) {
+        List<OwnerDto> webOwners = new ArrayList<>();
         for (Owner owner : owners) {
             webOwners.add(convertToWebOwner(owner));
         }

@@ -1,25 +1,21 @@
 package ru.itmo.kotiki.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.Interfaces.CatDAO;
 import ru.itmo.kotiki.accessory.Color;
-import ru.itmo.kotiki.interfaces.ICatService;
+import ru.itmo.kotiki.interfaces.CatService;
 import ru.itmo.kotiki.models.Cat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@ComponentScan(basePackages = {"ru.itmo.kotiki.Interfaces"})
-public class CatService implements ICatService {
-    @Qualifier("CatDAO")
+public class CatServiceImpl implements CatService {
     private final CatDAO catDAO;
 
     @Autowired
-    public CatService(CatDAO catDAO) {
+    public CatServiceImpl(CatDAO catDAO) {
         this.catDAO = catDAO;
     }
 

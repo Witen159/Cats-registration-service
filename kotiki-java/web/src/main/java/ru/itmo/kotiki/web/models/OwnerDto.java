@@ -1,12 +1,12 @@
-package ru.itmo.kotikijava.web.models;
+package ru.itmo.kotiki.web.models;
 
 import java.sql.Timestamp;
 
-public class WebOwner {
+public class OwnerDto {
     private final String name;
     private final Timestamp birthday;
 
-    public WebOwner (String name, Timestamp dateOfBirth) {
+    public OwnerDto(String name, Timestamp dateOfBirth) {
         this.name = name;
         this.birthday = dateOfBirth;
     }
