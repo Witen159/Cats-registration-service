@@ -6,21 +6,32 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table (name = "cats")
+@Table(name = "cats")
 public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "birthday")
     private Timestamp birthday;
+
+    @Column(name = "breed")
     private String breed;
+
+    @Column(name = "color")
     @Enumerated(value = EnumType.STRING)
     private Color color;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    public Cat() {}
+    public Cat() {
+    }
+
     public Cat(String name, Timestamp birthday, String breed, Color color) {
         this.name = name;
         this.breed = breed;
