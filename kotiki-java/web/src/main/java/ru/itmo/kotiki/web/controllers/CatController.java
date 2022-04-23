@@ -14,36 +14,37 @@ import java.util.List;
 public class CatController {
     private final CatService catService;
 
-    private final Converter converter = new Converter();
+    private final Converter converter;
 
     @Autowired
-    public CatController(CatService catService) {
+    public CatController(CatService catService, Converter converter) {
         this.catService = catService;
+        this.converter = converter;
     }
 
-    @GetMapping("/getCat/{id}")
+    @GetMapping("/{id}")
     public CatDto getCatById(@PathVariable Integer id) {
         return converter.convertToWebCat(catService.findCat(id));
     }
 
-    @GetMapping("/getCats")
+    @GetMapping("/all")
     public List<CatDto> getAllCats() {
         return converter.convertListOfCats(catService.findAllCats());
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public void createCat(@RequestBody CatDto webCat) {
         Cat cat = converter.convertToCat(webCat);
         catService.saveCat(cat);
     }
 
-    @PutMapping("/put")
+    @PutMapping("/")
     public void updateCat(@RequestBody CatDto webCat) {
         Cat cat = converter.convertToCat(webCat);
         catService.saveCat(cat);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCat(@PathVariable int id) {
         catService.deleteCat(catService.findCat(id));
     }

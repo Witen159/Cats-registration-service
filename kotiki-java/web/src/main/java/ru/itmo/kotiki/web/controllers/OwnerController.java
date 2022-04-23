@@ -14,35 +14,36 @@ import java.util.List;
 public class OwnerController {
     private final OwnerService ownerService;
 
-    private final Converter converter = new Converter();
+    private final Converter converter;
 
     @Autowired
-    public OwnerController(OwnerService ownerService) {
+    public OwnerController(OwnerService ownerService, Converter converter) {
         this.ownerService = ownerService;
+        this.converter = converter;
     }
 
-    @GetMapping("/getOwner/{id}")
+    @GetMapping("/{id}")
     public OwnerDto getOwnerById(@PathVariable int id) {
         return converter.convertToWebOwner(ownerService.findOwner(id));
     }
 
-    @GetMapping("/getOwners")
+    @GetMapping("/all")
     public List<OwnerDto> getAllOwners() {
         return converter.convertListOfOwners(ownerService.findAllOwners());
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public void createOwner(@RequestBody OwnerDto webOwner) {
         ownerService.saveOwner(converter.convertToOwner(webOwner));
     }
 
-    @PutMapping("/put")
+    @PutMapping("/")
     public void updateOwner(@RequestBody OwnerDto webOwner) {
         Owner owner = converter.convertToOwner(webOwner);
         ownerService.saveOwner(owner);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteOwner(@PathVariable int id) {
         ownerService.deleteOwner(ownerService.findOwner(id));
     }
