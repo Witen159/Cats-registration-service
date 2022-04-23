@@ -7,6 +7,7 @@ import ru.itmo.kotiki.models.Owner;
 import ru.itmo.kotiki.web.Converter;
 import ru.itmo.kotiki.web.models.OwnerDto;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -32,20 +33,23 @@ public class OwnerController {
         return converter.convertListOfOwners(ownerService.findAllOwners());
     }
 
-    @PostMapping("/")
-    public OwnerDto createOwner(@RequestBody OwnerDto webOwner) {
-        ownerService.saveOwner(converter.convertToOwner(webOwner));
-        return webOwner;
-    }
-
-    @PutMapping("/")
-    public void updateOwner(@RequestBody OwnerDto webOwner) {
-        Owner owner = converter.convertToOwner(webOwner);
+    @PostMapping("/create")
+    public OwnerDto createOwner(String name, Timestamp birthday) {
+        Owner owner = new Owner(name, birthday);
         ownerService.saveOwner(owner);
+        return converter.convertToWebOwner(owner);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOwner(@PathVariable int id) {
+    @PutMapping("/update")
+    public OwnerDto updateOwner(int id, String name) {
+        Owner owner = ownerService.findOwner(id);
+        owner.setName(name);
+        ownerService.saveOwner(owner);
+        return converter.convertToWebOwner(owner);
+    }
+
+    @DeleteMapping("/del")
+    public void deleteOwner(int id) {
         ownerService.deleteOwner(ownerService.findOwner(id));
     }
 }
