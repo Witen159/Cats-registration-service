@@ -1,13 +1,13 @@
 package ru.itmo.kotiki.tests;
 
+import org.hibernate.Session;
+import org.junit.Before;
+import org.junit.Test;
 import ru.itmo.kotiki.accessory.Color;
 import ru.itmo.kotiki.interfaces.CatService;
 import ru.itmo.kotiki.interfaces.OwnerService;
 import ru.itmo.kotiki.models.Cat;
 import ru.itmo.kotiki.models.Owner;
-import org.hibernate.Session;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.sql.Timestamp;
 

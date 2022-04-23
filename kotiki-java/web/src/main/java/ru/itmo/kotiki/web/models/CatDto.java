@@ -1,6 +1,7 @@
 package ru.itmo.kotiki.web.models;
 
 import ru.itmo.kotiki.accessory.Color;
+
 import java.sql.Timestamp;
 
 public class CatDto {

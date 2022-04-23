@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "owners")
+@Table(name = "owners")
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +21,10 @@ public class Owner {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cat> cats;
 
-    public Owner() {}
-    public Owner (String name, Timestamp dateOfBirth) {
+    public Owner() {
+    }
+
+    public Owner(String name, Timestamp dateOfBirth) {
         this.name = name;
         this.birthday = dateOfBirth;
         cats = new ArrayList<>();

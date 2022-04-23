@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.interfaces.CatService;
 import ru.itmo.kotiki.models.Cat;
-import ru.itmo.kotiki.web.models.CatDto;
 import ru.itmo.kotiki.web.Converter;
+import ru.itmo.kotiki.web.models.CatDto;
 
 import java.util.List;
 

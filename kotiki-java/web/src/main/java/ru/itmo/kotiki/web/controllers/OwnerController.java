@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.interfaces.OwnerService;
 import ru.itmo.kotiki.models.Owner;
-import ru.itmo.kotiki.web.models.OwnerDto;
 import ru.itmo.kotiki.web.Converter;
+import ru.itmo.kotiki.web.models.OwnerDto;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class OwnerController {
     }
 
     @PostMapping("/create")
-    public void createOwner (@RequestBody OwnerDto webOwner) {
+    public void createOwner(@RequestBody OwnerDto webOwner) {
         ownerService.saveOwner(converter.convertToOwner(webOwner));
     }
 

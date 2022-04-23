@@ -13,8 +13,10 @@ import java.util.List;
 @Component
 public class Converter {
     @Autowired
-    public Converter() {}
-    public Cat convertToCat (CatDto webCat) {
+    public Converter() {
+    }
+
+    public Cat convertToCat(CatDto webCat) {
         return new Cat(webCat.getName(), webCat.getBirthday(), webCat.getBreed(), webCat.getColor());
     }
 
@@ -30,11 +32,11 @@ public class Converter {
         return webCats;
     }
 
-    public Owner convertToOwner (OwnerDto webOwner) {
+    public Owner convertToOwner(OwnerDto webOwner) {
         return new Owner(webOwner.getName(), webOwner.getBirthday());
     }
 
-    public OwnerDto convertToWebOwner (Owner owner) {
+    public OwnerDto convertToWebOwner(Owner owner) {
         return new OwnerDto(owner.getName(), owner.getBirthday());
     }
 

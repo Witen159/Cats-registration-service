@@ -3,11 +3,10 @@ package ru.itmo.kotiki.models;
 import ru.itmo.kotiki.accessory.Color;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Entity
-@Table (name = "cats")
+@Table(name = "cats")
 public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +29,9 @@ public class Cat {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    public Cat() {}
+    public Cat() {
+    }
+
     public Cat(String name, Timestamp birthday, String breed, Color color) {
         this.name = name;
         this.breed = breed;
