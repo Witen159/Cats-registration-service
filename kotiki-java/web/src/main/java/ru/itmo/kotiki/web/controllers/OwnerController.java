@@ -33,8 +33,9 @@ public class OwnerController {
     }
 
     @PostMapping("/")
-    public void createOwner(@RequestBody OwnerDto webOwner) {
+    public OwnerDto createOwner(@RequestBody OwnerDto webOwner) {
         ownerService.saveOwner(converter.convertToOwner(webOwner));
+        return webOwner;
     }
 
     @PutMapping("/")

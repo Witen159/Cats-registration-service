@@ -33,9 +33,10 @@ public class CatController {
     }
 
     @PostMapping("/")
-    public void createCat(@RequestBody CatDto webCat) {
+    public CatDto createCat(@RequestBody CatDto webCat) {
         Cat cat = converter.convertToCat(webCat);
         catService.saveCat(cat);
+        return webCat;
     }
 
     @PutMapping("/")
