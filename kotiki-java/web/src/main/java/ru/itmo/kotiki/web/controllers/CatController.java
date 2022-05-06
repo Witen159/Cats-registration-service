@@ -31,9 +31,7 @@ public class CatController {
     @GetMapping("/{id}")
     public CatDto getCatById(@PathVariable Integer id) {
         Cat cat = catService.findCat(id);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        if (Objects.equals(cat.getOwner().getName(), username) || username.equals("ADMIN")) {
+        if (cat != null) {
             return converter.convertToWebCat(cat);
         }
         return null;
@@ -41,15 +39,7 @@ public class CatController {
 
     @GetMapping("/all")
     public List<CatDto> getAllCats() {
-        List<CatDto> catsDto = new ArrayList<>();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        for (Cat cat : catService.findAllCats()) {
-            if (Objects.equals(cat.getOwner().getName(), username) || username.equals("ADMIN")) {
-                catsDto.add(converter.convertToWebCat(cat));
-            }
-        }
-        return catsDto;
+        return converter.convertListOfCats(catService.findAllCats());
     }
 
     @PostMapping("/create")
@@ -62,9 +52,7 @@ public class CatController {
     @PutMapping("/update")
     public CatDto updateCat(int id, String name, Color color) {
         Cat cat = catService.findCat(id);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        if (Objects.equals(cat.getOwner().getName(), username) || username.equals("ADMIN")) {
+        if (cat != null) {
             cat.setName(name);
             cat.setColor(color);
             catService.saveCat(cat);
