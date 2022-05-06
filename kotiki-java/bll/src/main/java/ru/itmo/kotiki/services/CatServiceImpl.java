@@ -28,16 +28,18 @@ public class CatServiceImpl implements CatService {
     }
 
     public Cat findCat(int id) {
-        Cat cat = catDAO.getById(id);
+        User user = userDAO.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-
-        User user = userDAO.findUserByUsername(username);
-
-        if (user.getRole() == Role.ROLE_ADMIN || Objects.equals(user.getUsername(), cat.getOwner().getUsername())) {
-            return cat;
+        if (user.getRole() == Role.ROLE_ADMIN){
+            return catDAO.getById(id);
         }
+
+        for (Cat cat : catDAO.findCatsByOwnerId(user.getOwner().getId())) {
+            if (Objects.equals(cat.getId(), id)) {
+                return cat;
+            }
+        }
+
         return null;
     }
 
@@ -50,16 +52,13 @@ public class CatServiceImpl implements CatService {
     }
 
     public List<Cat> findAllCats() {
-        List<Cat> cats = new ArrayList<>();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        User user = userDAO.findUserByUsername(username);
-        for (Cat cat : catDAO.findAll()) {
-            if (user.getRole() == Role.ROLE_ADMIN || Objects.equals(user.getUsername(), cat.getOwner().getUsername())) {
-                cats.add(cat);
-            }
+        User user = userDAO.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if (user.getRole() == Role.ROLE_ADMIN){
+            return catDAO.findAll();
         }
-        return cats;
+
+        return catDAO.findCatsByOwnerId(user.getOwner().getId());
     }
 
     public List<Cat> findCatsByColor(Color color) {

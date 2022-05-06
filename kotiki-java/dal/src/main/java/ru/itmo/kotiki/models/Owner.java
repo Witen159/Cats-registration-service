@@ -20,9 +20,6 @@ public class Owner {
     @Column(name = "birthday")
     private Timestamp birthday;
 
-    @Column(name = "username")
-    private String username;
-
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Cat> cats;
 
@@ -71,13 +68,5 @@ public class Owner {
 
     public void setCats(List<Cat> cats) {
         this.cats = cats;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

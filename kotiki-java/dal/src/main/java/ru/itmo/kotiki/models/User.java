@@ -24,6 +24,10 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     public User() {
     }
 
@@ -68,5 +72,13 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
