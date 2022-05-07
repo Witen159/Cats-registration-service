@@ -1,5 +1,7 @@
 package ru.itmo.kotiki.models;
 
+import ru.itmo.kotiki.accessory.Role;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;

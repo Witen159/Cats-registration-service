@@ -21,7 +21,7 @@ public class Converter {
     }
 
     public CatDto convertToWebCat(Cat cat) {
-        return new CatDto(cat.getName(), cat.getBirthday(), cat.getBreed(), cat.getColor());
+        return new CatDto(cat.getId(), cat.getName(), cat.getBirthday(), cat.getBreed(), cat.getColor());
     }
 
     public List<CatDto> convertListOfCats(List<Cat> cats) {
@@ -37,7 +37,7 @@ public class Converter {
     }
 
     public OwnerDto convertToWebOwner(Owner owner) {
-        return new OwnerDto(owner.getName(), owner.getBirthday());
+        return new OwnerDto(owner.getId(), owner.getName(), owner.getBirthday());
     }
 
     public List<OwnerDto> convertListOfOwners(List<Owner> owners) {

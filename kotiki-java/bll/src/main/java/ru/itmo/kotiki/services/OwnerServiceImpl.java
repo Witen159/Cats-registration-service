@@ -8,6 +8,7 @@ import ru.itmo.kotiki.models.Cat;
 import ru.itmo.kotiki.models.Owner;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OwnerServiceImpl implements OwnerService {
